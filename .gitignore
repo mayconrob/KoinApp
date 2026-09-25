@@ -1,0 +1,24 @@
+﻿# Caches e arquivos de compilação do Gradle
+.gradle/
+build/
+**/build/
+*.apk
+*.aar
+
+# Arquivos de configuração da IDE (Android Studio / Cursor / IntelliJ)
+.idea/
+*.iml
+.navigation/
+captures/
+.externalNativeBuild
+.cxx/
+
+# Arquivos locais e chaves privadas de assinatura
+local.properties
+*.keystore
+*.jks
+
+# Logs e arquivos temporários do sistema operacional
+*.log
+.DS_Store
+Thumbs.db
