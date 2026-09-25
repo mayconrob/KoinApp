@@ -33,19 +33,6 @@ O projeto foi estruturado seguindo as melhores práticas recomendadas pela Googl
 
 ---
 
-## 📁 Estrutura de Pacotes
-
-com.mayconrob.koinapp/
-├── data/           # Entidades Room, DAOs e Banco de Dados
-├── repository/     # Camada de repositórios (abstração de dados)
-├── ui/             # Telas em Jetpack Compose, ViewModels e Estados
-│   ├── components/ # Componentes reutilizáveis de UI
-│   ├── theme/      # Cores, Tipografia e Temas do Material 3
-│   └── views/      # Screens e Composables das telas principais
-└── util/           # Formatadores de moeda, datas e utilitários
-
----
-
 ## 🤖 Uso de Inteligência Artificial
 
 A interface gráfica do **KoinApp** (desenvolvida em **Jetpack Compose** com Material 3) foi desenhada e estruturada com o auxílio de **Inteligência Artificial**, otimizando o fluxo de prototipagem e a construção dos componentes visuais da aplicação.
