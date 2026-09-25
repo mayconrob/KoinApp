@@ -41,9 +41,9 @@ import com.mayconrob.koinapp.util.Formatters
 @Composable
 fun TransactionItem(
     item: TransactionWithCategory,
-    onDeleteClick: (TransactionWithCategory) -> Unit,
+    modifier: Modifier = Modifier,
     onEditClick: ((TransactionWithCategory) -> Unit)? = null,
-    modifier: Modifier = Modifier
+    onDeleteClick: ((TransactionWithCategory) -> Unit)? = null
 ) {
     val isIncome = item.transaction.type == TransactionType.INCOME
     val amountPrefix = if (isIncome) "+ " else "- "
@@ -122,14 +122,15 @@ fun TransactionItem(
                     )
                 }
             }
-
-            IconButton(onClick = { onDeleteClick(item) }) {
-                Icon(
-                    imageVector = Icons.Default.Delete,
-                    contentDescription = "Excluir Transação",
-                    tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
-                    modifier = Modifier.size(20.dp)
-                )
+            if (onDeleteClick != null) {
+                IconButton(onClick = { onDeleteClick(item) }) {
+                    Icon(
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = "Excluir Transação",
+                        tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
             }
         }
     }

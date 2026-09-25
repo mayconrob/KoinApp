@@ -1,6 +1,5 @@
 package com.mayconrob.koinapp.ui.screens
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.mayconrob.koinapp.data.local.TransactionWithCategory
 import com.mayconrob.koinapp.ui.components.CategoryBudgetCard
 import com.mayconrob.koinapp.ui.components.StatCard
 import com.mayconrob.koinapp.ui.components.TransactionItem
@@ -38,7 +36,6 @@ import com.mayconrob.koinapp.ui.viewmodel.PainelFinanceiroUiState
 fun DashboardScreen(
     state: PainelFinanceiroUiState,
     onAddTransactionClick: () -> Unit,
-    onDeleteTransactionClick: (TransactionWithCategory) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
@@ -141,8 +138,7 @@ fun DashboardScreen(
             } else {
                 items(state.ultimasTransacoes) { item ->
                     TransactionItem(
-                        item = item,
-                        onDeleteClick = onDeleteTransactionClick
+                        item = item
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                 }

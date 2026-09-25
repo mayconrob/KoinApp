@@ -35,7 +35,7 @@ import com.mayconrob.koinapp.ui.screens.DashboardScreen
 import com.mayconrob.koinapp.ui.screens.TransactionListScreen
 import com.mayconrob.koinapp.ui.theme.AccentIndigo
 import com.mayconrob.koinapp.ui.theme.DarkSurface
-import com.mayconrob.koinapp.ui.theme.FinanceAppTheme
+import com.mayconrob.koinapp.ui.theme.KoinAppTheme
 import com.mayconrob.koinapp.ui.viewmodel.ExtratoTransacoesViewModel
 import com.mayconrob.koinapp.ui.viewmodel.GerenciamentoCategoriasViewModel
 import com.mayconrob.koinapp.ui.viewmodel.PainelFinanceiroViewModel
@@ -47,7 +47,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            FinanceAppTheme {
+            KoinAppTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -85,7 +85,12 @@ fun MainContent(
                 NavigationBarItem(
                     selected = selectedTab == 0,
                     onClick = { selectedTab = 0 },
-                    icon = { Icon(imageVector = Icons.Default.Dashboard, contentDescription = "Dashboard") },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Default.Dashboard,
+                            contentDescription = "Dashboard"
+                        )
+                    },
                     label = { Text("Dashboard") },
                     colors = NavigationBarItemDefaults.colors(
                         selectedIconColor = AccentIndigo,
@@ -96,7 +101,12 @@ fun MainContent(
                 NavigationBarItem(
                     selected = selectedTab == 1,
                     onClick = { selectedTab = 1 },
-                    icon = { Icon(imageVector = Icons.AutoMirrored.Filled.ListAlt, contentDescription = "Extrato") },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ListAlt,
+                            contentDescription = "Extrato"
+                        )
+                    },
                     label = { Text("Extrato") },
                     colors = NavigationBarItemDefaults.colors(
                         selectedIconColor = AccentIndigo,
@@ -107,7 +117,12 @@ fun MainContent(
                 NavigationBarItem(
                     selected = selectedTab == 2,
                     onClick = { selectedTab = 2 },
-                    icon = { Icon(imageVector = Icons.Default.Category, contentDescription = "Categorias") },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Default.Category,
+                            contentDescription = "Categorias"
+                        )
+                    },
                     label = { Text("Categorias") },
                     colors = NavigationBarItemDefaults.colors(
                         selectedIconColor = AccentIndigo,
@@ -123,20 +138,26 @@ fun MainContent(
             0 -> DashboardScreen(
                 state = painelUiState,
                 onAddTransactionClick = { showAddTransactionDialog = true },
-                onDeleteTransactionClick = { painelViewModel.deleteTransaction(it) },
                 modifier = modifier
             )
+
             1 -> TransactionListScreen(
                 state = extratoUiState,
                 categories = categoriasUiState.categorias,
                 onSearchQueryChanged = { extratoViewModel.onSearchQueryChanged(it) },
                 onCategoryFilterChanged = { extratoViewModel.onCategoryFilterChanged(it) },
                 onTipoFiltroDataChanged = { extratoViewModel.onTipoFiltroDataChanged(it) },
-                onPeriodoDataChanged = { start, end -> extratoViewModel.onPeriodoDataChanged(start, end) },
+                onPeriodoDataChanged = { start, end ->
+                    extratoViewModel.onPeriodoDataChanged(
+                        start,
+                        end
+                    )
+                },
                 onEditTransactionClick = { editingTransaction = it },
                 onDeleteTransactionClick = { extratoViewModel.deleteTransaction(it) },
                 modifier = modifier
             )
+
             2 -> CategoriesScreen(
                 state = categoriasUiState,
                 onAddCategoryClick = { showAddCategoryDialog = true },
