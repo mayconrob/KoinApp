@@ -1,6 +1,5 @@
 package com.mayconrob.koinapp.ui.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
@@ -16,11 +15,8 @@ private val DarkColorScheme = darkColorScheme(
     onBackground = TextPrimaryDark,
     onSurface = TextPrimaryDark
 )
-
-@JvmOverloads
 @Composable
-fun FinanceAppTheme(
-    darkTheme: Boolean = true, // Padrão Dark Mode elegante
+fun KoinAppTheme(
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
