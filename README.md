@@ -14,8 +14,9 @@ O **KoinApp** é um aplicativo Android nativo desenvolvido para ajudar no contro
 - 📊 **Gestão de Transações:** Cadastro, edição e exclusão de receitas e despesas.
 - 🗂️ **Categorização Inteligente:** Organização de gastos por categorias personalizáveis.
 - 📈 **Painel de Controle (Dashboard):** Visualização clara do saldo total, entradas e saídas.
+- 📜 **Extrato Financeiro Completo:** Histórico detalhado com pesquisa e filtros avançados por período, categoria e descrição das transações.
 - 💾 **Armazenamento 100% Local:** Seus dados financeiros nunca saem do seu dispositivo.
-- 🎨 **Material 3 Design:** Interface moderna, responsiva e suporte a Modo Escuro (Dark Theme).
+- 🎨 **Material 3 Design:** Interface moderna, responsiva e integrada ao Modo Escuro (Dark Theme).
 
 ---
 
