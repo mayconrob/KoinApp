@@ -1,0 +1,46 @@
+# ========================================
+# Android / Gradle Build & Caches
+# ========================================
+.gradle/
+build/
+**/build/
+*.apk
+*.aar
+*.aab
+.navigation/
+captures/
+.externalNativeBuild
+.cxx/
+
+# ========================================
+# IDEs (Android Studio, IntelliJ, Cursor, VS Code)
+# ========================================
+.idea/
+*.iml
+.vscode/
+.fleet/
+
+# ========================================
+# Local properties & Signatures
+# ========================================
+local.properties
+*.keystore
+*.jks
+
+# ========================================
+# OS Files & Logs
+# ========================================
+*.log
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# ========================================
+# AI Assistants & Artifacts (Gemini, Cursor, Scratch)
+# ========================================
+.artifacts/
+.gemini/
+.cursor/
+.ai/
+scratch/
+.scratch/
