@@ -1,4 +1,4 @@
-package com.mayconrob.koinapp.ui.screens
+package com.mayconrob.coinflow.ui.screens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -32,14 +32,14 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.mayconrob.koinapp.domain.model.Category
-import com.mayconrob.koinapp.domain.model.TransactionWithCategory
-import com.mayconrob.koinapp.ui.components.DateRangePickerDialog
-import com.mayconrob.koinapp.ui.components.TransactionItem
-import com.mayconrob.koinapp.ui.viewmodel.ExtratoTransacoesUiState
-import com.mayconrob.koinapp.ui.viewmodel.TipoFiltroData
-import com.mayconrob.koinapp.common.Formatters
-import com.mayconrob.koinapp.ui.theme.ExpenseRed
+import com.mayconrob.coinflow.domain.model.Category
+import com.mayconrob.coinflow.domain.model.TransactionWithCategory
+import com.mayconrob.coinflow.ui.components.DateRangePickerDialog
+import com.mayconrob.coinflow.ui.components.TransactionItem
+import com.mayconrob.coinflow.ui.viewmodel.ExtratoTransacoesUiState
+import com.mayconrob.coinflow.ui.viewmodel.TipoFiltroData
+import com.mayconrob.coinflow.common.Formatters
+import com.mayconrob.coinflow.ui.theme.ExpenseRed
 
 @Composable
 fun TransactionListScreen(

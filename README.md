@@ -1,11 +1,11 @@
-﻿# 🪙 KoinApp - Gestão Financeira Pessoal
+﻿# CoinFlow
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.0+-7F52FF.svg?logo=kotlin&logoColor=white)](https://kotlinlang.org/)
 [![Android](https://img.shields.io/badge/Android-API_26+-3DDC84.svg?logo=android&logoColor=white)](https://developer.android.com/)
 [![Jetpack Compose](https://img.shields.io/badge/UI-Jetpack%20Compose-4285F4.svg?logo=jetpackcompose&logoColor=white)](https://developer.android.com/jetpack/compose)
 
-O **KoinApp** é um aplicativo Android nativo desenvolvido para ajudar no controle e organização financeira pessoal. Construído totalmente em **Kotlin** com as tecnologias mais modernas do ecossistema Android, ele utiliza **Jetpack Compose** para a interface declarativa e **Room Database** para o armazenamento local persistente, seguro e privativo.
+O **CoinFlow** é um aplicativo Android nativo desenvolvido para ajudar no controle e organização financeira pessoal. Construído totalmente em **Kotlin** com as tecnologias mais modernas do ecossistema Android, ele utiliza **Jetpack Compose** para a interface declarativa e **Room Database** para o armazenamento local persistente, seguro e privativo.
 
 ---
 
@@ -29,14 +29,14 @@ O projeto foi estruturado seguindo as melhores práticas recomendadas pela Googl
 - **Arquitetura:** MVVM (Model-View-ViewModel) + Clean Architecture (Separação entre Domain, Models, Mappers e Room Entities)
 - **Persistência de Dados:** [Room Database](https://developer.android.com/training/data-storage/room)
 - **Assincronismo:** Kotlin Coroutines & StateFlow
-- **Injeção de Dependência:** Hilt / Koin
+- **Injeção de Dependência:** Hilt (Dagger)
 - **Gerenciador de Build:** Gradle (Kotlin DSL)
 
 ---
 
 ## 🚀 Melhoria Contínua & Roadmap
 
-O **KoinApp** está em constante evolução arquitetural e funcional. As próximas etapas planejadas para a melhoria contínua do projeto incluem:
+O **CoinFlow** está em constante evolução arquitetural e funcional. As próximas etapas planejadas para a melhoria contínua do projeto incluem:
 
 - [ ] **Testes Automatizados:** Implementação de suítes de testes unitários (JUnit / MockK) para ViewModels e Use Cases, além de testes de UI com Jetpack Compose.
 - [ ] **Exportação de Dados:** Funcionalidade para exportar e importar dados financeiros em formatos como CSV ou JSON.
@@ -48,7 +48,7 @@ O **KoinApp** está em constante evolução arquitetural e funcional. As próxim
 
 ## 🤖 Uso de Inteligência Artificial
 
-A interface gráfica do **KoinApp** (desenvolvida em **Jetpack Compose** com Material 3) foi desenhada e estruturada com o auxílio de **Inteligência Artificial**, otimizando o fluxo de prototipagem e a construção dos componentes visuais da aplicação.
+A interface gráfica do **CoinFlow** (desenvolvida em **Jetpack Compose** com Material 3) foi desenhada e estruturada com o auxílio de **Inteligência Artificial**, otimizando o fluxo de prototipagem e a construção dos componentes visuais da aplicação.
 
 ---
 

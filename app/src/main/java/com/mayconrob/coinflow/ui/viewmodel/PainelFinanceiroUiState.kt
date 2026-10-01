@@ -1,8 +1,8 @@
-package com.mayconrob.koinapp.ui.viewmodel
+package com.mayconrob.coinflow.ui.viewmodel
 
-import com.mayconrob.koinapp.domain.model.TransactionWithCategory
-import com.mayconrob.koinapp.domain.model.FinancialSummary
-import com.mayconrob.koinapp.common.Formatters
+import com.mayconrob.coinflow.domain.model.TransactionWithCategory
+import com.mayconrob.coinflow.domain.model.FinancialSummary
+import com.mayconrob.coinflow.common.Formatters
 
 data class PainelFinanceiroUiState(
     val resumo: FinancialSummary = FinancialSummary(),

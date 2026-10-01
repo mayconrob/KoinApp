@@ -1,12 +1,10 @@
-package com.mayconrob.koinapp.ui.components
+package com.mayconrob.coinflow.ui.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.material3.AlertDialog
@@ -26,12 +24,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.mayconrob.koinapp.ui.theme.ExpenseRed
-import com.mayconrob.koinapp.common.Formatters
+import com.mayconrob.coinflow.ui.theme.ExpenseRed
+import com.mayconrob.coinflow.common.Formatters
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

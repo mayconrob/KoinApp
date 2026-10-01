@@ -1,4 +1,4 @@
-package com.mayconrob.koinapp.ui.components
+package com.mayconrob.coinflow.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -33,10 +33,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.mayconrob.koinapp.domain.model.Category
-import com.mayconrob.koinapp.domain.enums.TransactionType
-import com.mayconrob.koinapp.ui.theme.ExpenseRed
-import com.mayconrob.koinapp.ui.theme.IncomeGreen
+import com.mayconrob.coinflow.domain.model.Category
+import com.mayconrob.coinflow.domain.enums.TransactionType
+import com.mayconrob.coinflow.ui.theme.ExpenseRed
+import com.mayconrob.coinflow.ui.theme.IncomeGreen
 import java.math.BigDecimal
 
 @Composable

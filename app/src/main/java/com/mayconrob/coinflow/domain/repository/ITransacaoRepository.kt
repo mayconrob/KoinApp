@@ -1,7 +1,7 @@
-package com.mayconrob.koinapp.domain.repository
+package com.mayconrob.coinflow.domain.repository
 
-import com.mayconrob.koinapp.domain.model.Transaction
-import com.mayconrob.koinapp.domain.model.TransactionWithCategory
+import com.mayconrob.coinflow.domain.model.Transaction
+import com.mayconrob.coinflow.domain.model.TransactionWithCategory
 import kotlinx.coroutines.flow.Flow
 import java.math.BigDecimal
 

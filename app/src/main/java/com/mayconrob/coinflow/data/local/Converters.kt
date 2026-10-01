@@ -1,4 +1,4 @@
-package com.mayconrob.koinapp.data.local
+package com.mayconrob.coinflow.data.local
 
 import androidx.room.TypeConverter
 import java.math.BigDecimal

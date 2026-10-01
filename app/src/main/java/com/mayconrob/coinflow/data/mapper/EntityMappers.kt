@@ -1,11 +1,11 @@
-package com.mayconrob.koinapp.data.mapper
+package com.mayconrob.coinflow.data.mapper
 
-import com.mayconrob.koinapp.data.local.CategoryEntity
-import com.mayconrob.koinapp.data.local.TransactionEntity
-import com.mayconrob.koinapp.data.local.TransactionWithCategoryEntity
-import com.mayconrob.koinapp.domain.model.Category
-import com.mayconrob.koinapp.domain.model.Transaction
-import com.mayconrob.koinapp.domain.model.TransactionWithCategory
+import com.mayconrob.coinflow.data.local.CategoryEntity
+import com.mayconrob.coinflow.data.local.TransactionEntity
+import com.mayconrob.coinflow.data.local.TransactionWithCategoryEntity
+import com.mayconrob.coinflow.domain.model.Category
+import com.mayconrob.coinflow.domain.model.Transaction
+import com.mayconrob.coinflow.domain.model.TransactionWithCategory
 
 fun CategoryEntity.toDomain(): Category {
     return Category(

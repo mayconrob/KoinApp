@@ -1,4 +1,4 @@
-package com.mayconrob.koinapp.domain.enums
+package com.mayconrob.coinflow.domain.enums
 
 enum class TransactionType {
     INCOME,  // Receita / Entrada

@@ -1,9 +1,9 @@
-package com.mayconrob.koinapp.data.local.di
+package com.mayconrob.coinflow.data.local.di
 
 import android.content.Context
-import com.mayconrob.koinapp.data.local.AppDatabase
-import com.mayconrob.koinapp.data.local.CategoryDao
-import com.mayconrob.koinapp.data.local.TransactionDao
+import com.mayconrob.coinflow.data.local.AppDatabase
+import com.mayconrob.coinflow.data.local.CategoryDao
+import com.mayconrob.coinflow.data.local.TransactionDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

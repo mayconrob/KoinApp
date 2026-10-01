@@ -1,4 +1,4 @@
-package com.mayconrob.koinapp.ui.theme
+package com.mayconrob.coinflow.ui.theme
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme

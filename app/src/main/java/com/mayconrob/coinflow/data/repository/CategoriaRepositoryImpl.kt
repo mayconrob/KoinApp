@@ -1,5 +1,5 @@
 /*
- * KoinApp - Gestão Financeira Pessoal
+ * CoinFlow - Gestão Financeira Pessoal
  * Copyright (C) 2026 Maycon Roberto - GitHub: @mayconrob
  *
  * This program is free software: you can redistribute it and/or modify
@@ -8,13 +8,13 @@
  * (at your option) any later version.
  */
 
-package com.mayconrob.koinapp.data.repository
+package com.mayconrob.coinflow.data.repository
 
-import com.mayconrob.koinapp.data.local.CategoryDao
-import com.mayconrob.koinapp.data.mapper.toDomain
-import com.mayconrob.koinapp.data.mapper.toEntity
-import com.mayconrob.koinapp.domain.model.Category
-import com.mayconrob.koinapp.domain.repository.ICategoriaRepository
+import com.mayconrob.coinflow.data.local.CategoryDao
+import com.mayconrob.coinflow.data.mapper.toDomain
+import com.mayconrob.coinflow.data.mapper.toEntity
+import com.mayconrob.coinflow.domain.model.Category
+import com.mayconrob.coinflow.domain.repository.ICategoriaRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

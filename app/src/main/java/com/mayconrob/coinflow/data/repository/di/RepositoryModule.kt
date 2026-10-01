@@ -1,9 +1,9 @@
-package com.mayconrob.koinapp.data.repository.di
+package com.mayconrob.coinflow.data.repository.di
 
-import com.mayconrob.koinapp.data.repository.CategoriaRepositoryImpl
-import com.mayconrob.koinapp.data.repository.TransacaoRepositoryImpl
-import com.mayconrob.koinapp.domain.repository.ICategoriaRepository
-import com.mayconrob.koinapp.domain.repository.ITransacaoRepository
+import com.mayconrob.coinflow.data.repository.CategoriaRepositoryImpl
+import com.mayconrob.coinflow.data.repository.TransacaoRepositoryImpl
+import com.mayconrob.coinflow.domain.repository.ICategoriaRepository
+import com.mayconrob.coinflow.domain.repository.ITransacaoRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

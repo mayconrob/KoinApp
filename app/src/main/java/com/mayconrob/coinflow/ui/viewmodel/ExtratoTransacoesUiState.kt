@@ -1,6 +1,6 @@
-package com.mayconrob.koinapp.ui.viewmodel
+package com.mayconrob.coinflow.ui.viewmodel
 
-import com.mayconrob.koinapp.domain.model.TransactionWithCategory
+import com.mayconrob.coinflow.domain.model.TransactionWithCategory
 
 enum class TipoFiltroData {
     ULTIMOS_7_DIAS, // Filtra os últimos 7 dias (sem considerar horário)

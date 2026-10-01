@@ -1,4 +1,4 @@
-package com.mayconrob.koinapp.domain.model
+package com.mayconrob.coinflow.domain.model
 
 import java.math.BigDecimal
 

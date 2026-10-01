@@ -1,6 +1,6 @@
-package com.mayconrob.koinapp.domain.repository
+package com.mayconrob.coinflow.domain.repository
 
-import com.mayconrob.koinapp.domain.model.Category
+import com.mayconrob.coinflow.domain.model.Category
 import kotlinx.coroutines.flow.Flow
 
 interface ICategoriaRepository {

@@ -1,5 +1,5 @@
 /*
- * KoinApp - Gestão Financeira Pessoal
+ * CoinFlow - Gestão Financeira Pessoal
  * Copyright (C) 2026 Maycon Roberto GitHub: @mayconrob
  *
  * This program is free software: you can redistribute it and/or modify
@@ -8,14 +8,14 @@
  * (at your option) any later version.
  */
 
-package com.mayconrob.koinapp.ui.viewmodel
+package com.mayconrob.coinflow.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mayconrob.koinapp.domain.model.Category
-import com.mayconrob.koinapp.domain.repository.ICategoriaRepository
-import com.mayconrob.koinapp.domain.repository.ITransacaoRepository
-import com.mayconrob.koinapp.domain.enums.TransactionType
+import com.mayconrob.coinflow.domain.model.Category
+import com.mayconrob.coinflow.domain.repository.ICategoriaRepository
+import com.mayconrob.coinflow.domain.repository.ITransacaoRepository
+import com.mayconrob.coinflow.domain.enums.TransactionType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

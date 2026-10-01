@@ -1,6 +1,6 @@
-package com.mayconrob.koinapp.domain.model
+package com.mayconrob.coinflow.domain.model
 
-import com.mayconrob.koinapp.domain.enums.TransactionType
+import com.mayconrob.coinflow.domain.enums.TransactionType
 import java.math.BigDecimal
 
 data class Transaction(

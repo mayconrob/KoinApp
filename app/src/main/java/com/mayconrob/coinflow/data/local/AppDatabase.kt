@@ -1,5 +1,5 @@
 /*
- * KoinApp - Gestão Financeira Pessoal
+ * CoinFlow - Gestão Financeira Pessoal
  * Copyright (C) 2026 Maycon Roberto - GitHub: @mayconrob
  *
  * This program is free software: you can redistribute it and/or modify
@@ -7,7 +7,7 @@
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  */
-package com.mayconrob.koinapp.data.local
+package com.mayconrob.coinflow.data.local
 
 import android.content.Context
 import androidx.room.Database
@@ -15,7 +15,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.mayconrob.koinapp.domain.enums.TransactionType
+import com.mayconrob.coinflow.domain.enums.TransactionType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

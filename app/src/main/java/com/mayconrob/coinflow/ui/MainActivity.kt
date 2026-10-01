@@ -1,4 +1,4 @@
-package com.mayconrob.koinapp.ui
+package com.mayconrob.coinflow.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -26,19 +26,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.mayconrob.koinapp.domain.model.Category
-import com.mayconrob.koinapp.domain.model.TransactionWithCategory
-import com.mayconrob.koinapp.ui.components.AddCategoryDialog
-import com.mayconrob.koinapp.ui.components.AddTransactionDialog
-import com.mayconrob.koinapp.ui.screens.CategoriesScreen
-import com.mayconrob.koinapp.ui.screens.DashboardScreen
-import com.mayconrob.koinapp.ui.screens.TransactionListScreen
-import com.mayconrob.koinapp.ui.theme.AccentIndigo
-import com.mayconrob.koinapp.ui.theme.DarkSurface
-import com.mayconrob.koinapp.ui.theme.KoinAppTheme
-import com.mayconrob.koinapp.ui.viewmodel.ExtratoTransacoesViewModel
-import com.mayconrob.koinapp.ui.viewmodel.GerenciamentoCategoriasViewModel
-import com.mayconrob.koinapp.ui.viewmodel.PainelFinanceiroViewModel
+import com.mayconrob.coinflow.domain.model.Category
+import com.mayconrob.coinflow.domain.model.TransactionWithCategory
+import com.mayconrob.coinflow.ui.components.AddCategoryDialog
+import com.mayconrob.coinflow.ui.components.AddTransactionDialog
+import com.mayconrob.coinflow.ui.screens.CategoriesScreen
+import com.mayconrob.coinflow.ui.screens.DashboardScreen
+import com.mayconrob.coinflow.ui.screens.TransactionListScreen
+import com.mayconrob.coinflow.ui.theme.AccentIndigo
+import com.mayconrob.coinflow.ui.theme.DarkSurface
+import com.mayconrob.coinflow.ui.theme.KoinAppTheme
+import com.mayconrob.coinflow.ui.viewmodel.ExtratoTransacoesViewModel
+import com.mayconrob.coinflow.ui.viewmodel.GerenciamentoCategoriasViewModel
+import com.mayconrob.coinflow.ui.viewmodel.PainelFinanceiroViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

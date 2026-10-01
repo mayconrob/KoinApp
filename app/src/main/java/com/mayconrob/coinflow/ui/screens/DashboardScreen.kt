@@ -1,4 +1,4 @@
-package com.mayconrob.koinapp.ui.screens
+package com.mayconrob.coinflow.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -28,13 +28,13 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.mayconrob.koinapp.ui.components.CategoryBudgetCard
-import com.mayconrob.koinapp.ui.components.StatCard
-import com.mayconrob.koinapp.ui.components.TransactionItem
-import com.mayconrob.koinapp.ui.theme.AccentIndigo
-import com.mayconrob.koinapp.ui.theme.ExpenseRed
-import com.mayconrob.koinapp.ui.theme.IncomeGreen
-import com.mayconrob.koinapp.ui.viewmodel.PainelFinanceiroUiState
+import com.mayconrob.coinflow.ui.components.CategoryBudgetCard
+import com.mayconrob.coinflow.ui.components.StatCard
+import com.mayconrob.coinflow.ui.components.TransactionItem
+import com.mayconrob.coinflow.ui.theme.AccentIndigo
+import com.mayconrob.coinflow.ui.theme.ExpenseRed
+import com.mayconrob.coinflow.ui.theme.IncomeGreen
+import com.mayconrob.coinflow.ui.viewmodel.PainelFinanceiroUiState
 
 @Composable
 fun DashboardScreen(

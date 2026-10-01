@@ -1,4 +1,4 @@
-package com.mayconrob.koinapp.ui.screens
+package com.mayconrob.coinflow.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -45,15 +45,15 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.mayconrob.koinapp.domain.model.Category
-import com.mayconrob.koinapp.domain.enums.TransactionType
-import com.mayconrob.koinapp.ui.theme.AccentIndigo
-import com.mayconrob.koinapp.ui.theme.DarkCardBorder
-import com.mayconrob.koinapp.ui.theme.DarkSurface
-import com.mayconrob.koinapp.ui.theme.ExpenseRed
-import com.mayconrob.koinapp.ui.theme.IncomeGreen
-import com.mayconrob.koinapp.ui.viewmodel.GerenciamentoCategoriasUiState
-import com.mayconrob.koinapp.common.Formatters
+import com.mayconrob.coinflow.domain.model.Category
+import com.mayconrob.coinflow.domain.enums.TransactionType
+import com.mayconrob.coinflow.ui.theme.AccentIndigo
+import com.mayconrob.coinflow.ui.theme.DarkCardBorder
+import com.mayconrob.coinflow.ui.theme.DarkSurface
+import com.mayconrob.coinflow.ui.theme.ExpenseRed
+import com.mayconrob.coinflow.ui.theme.IncomeGreen
+import com.mayconrob.coinflow.ui.viewmodel.GerenciamentoCategoriasUiState
+import com.mayconrob.coinflow.common.Formatters
 import java.math.BigDecimal
 
 @Composable
