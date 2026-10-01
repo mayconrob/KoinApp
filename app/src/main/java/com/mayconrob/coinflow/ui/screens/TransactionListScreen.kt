@@ -1,11 +1,14 @@
 package com.mayconrob.coinflow.ui.screens
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.Alignment
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -37,6 +40,8 @@ import com.mayconrob.coinflow.domain.model.TransactionWithCategory
 import com.mayconrob.coinflow.ui.components.DateRangePickerDialog
 import com.mayconrob.coinflow.ui.components.TransactionItem
 import com.mayconrob.coinflow.ui.viewmodel.ExtratoTransacoesUiState
+import androidx.compose.material.icons.automirrored.filled.Sort
+import com.mayconrob.coinflow.ui.viewmodel.enums.OrdemTransacao
 import com.mayconrob.coinflow.ui.viewmodel.enums.TipoFiltroData
 import com.mayconrob.coinflow.ui.viewmodel.enums.TipoFiltroTransacao
 import com.mayconrob.coinflow.common.Formatters
@@ -50,6 +55,7 @@ fun TransactionListScreen(
     onCategoryFilterChanged: (Long?) -> Unit,
     onTipoFiltroDataChanged: (TipoFiltroData) -> Unit,
     onTipoFiltroTransacaoChanged: (TipoFiltroTransacao) -> Unit,
+    onOrdemTransacaoChanged: (OrdemTransacao) -> Unit,
     onPeriodoDataChanged: (Long?, Long?) -> Unit,
     onEditTransactionClick: (TransactionWithCategory) -> Unit,
     onDeleteTransactionClick: (TransactionWithCategory) -> Unit,
@@ -152,8 +158,6 @@ fun TransactionListScreen(
             }
         }
 
-        Spacer(modifier = Modifier.height(6.dp))
-
         // Chips de Filtro por Categoria (Cumulativo)
         LazyRow {
             item {
@@ -174,7 +178,61 @@ fun TransactionListScreen(
             }
         }
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(14.dp))
+
+        // Cabeçalho da Lista + Chips de Ordenação (Diretamente no contexto da lista)
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Ordenar por:",
+                style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold),
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
+            )
+        }
+
+        Spacer(modifier = Modifier.height(4.dp))
+
+        // Chips de Ordenação dos Resultados
+        LazyRow {
+            item {
+                FilterChip(
+                    selected = state.ordemTransacao == OrdemTransacao.MAIS_RECENTES,
+                    onClick = { onOrdemTransacaoChanged(OrdemTransacao.MAIS_RECENTES) },
+                    leadingIcon = { Icon(imageVector = Icons.AutoMirrored.Filled.Sort, contentDescription = null) },
+                    label = { Text("Mais recentes") },
+                    modifier = Modifier.padding(end = 6.dp)
+                )
+            }
+            item {
+                FilterChip(
+                    selected = state.ordemTransacao == OrdemTransacao.MAIS_ANTIGAS,
+                    onClick = { onOrdemTransacaoChanged(OrdemTransacao.MAIS_ANTIGAS) },
+                    label = { Text("Mais antigas") },
+                    modifier = Modifier.padding(end = 6.dp)
+                )
+            }
+            item {
+                FilterChip(
+                    selected = state.ordemTransacao == OrdemTransacao.MAIOR_VALOR,
+                    onClick = { onOrdemTransacaoChanged(OrdemTransacao.MAIOR_VALOR) },
+                    label = { Text("Maior valor") },
+                    modifier = Modifier.padding(end = 6.dp)
+                )
+            }
+            item {
+                FilterChip(
+                    selected = state.ordemTransacao == OrdemTransacao.MENOR_VALOR,
+                    onClick = { onOrdemTransacaoChanged(OrdemTransacao.MENOR_VALOR) },
+                    label = { Text("Menor valor") },
+                    modifier = Modifier.padding(end = 6.dp)
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
 
         // Lista de Transações
         if (state.transacoes.isEmpty()) {

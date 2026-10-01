@@ -7,6 +7,7 @@ import com.mayconrob.coinflow.domain.model.TransactionWithCategory
 import com.mayconrob.coinflow.domain.repository.ITransacaoRepository
 import com.mayconrob.coinflow.domain.enums.TransactionType
 import com.mayconrob.coinflow.common.Formatters
+import com.mayconrob.coinflow.ui.viewmodel.enums.OrdemTransacao
 import com.mayconrob.coinflow.ui.viewmodel.enums.TipoFiltroData
 import com.mayconrob.coinflow.ui.viewmodel.enums.TipoFiltroTransacao
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,6 +18,16 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import javax.inject.Inject
+
+private data class FiltrosExtratoParams(
+    val query: String,
+    val filterCatIds: Set<Long>,
+    val tipoTransacao: TipoFiltroTransacao,
+    val ordem: OrdemTransacao,
+    val tipoData: TipoFiltroData,
+    val inicio: Long?,
+    val fim: Long?
+)
 
 @HiltViewModel
 class ExtratoTransacoesViewModel @Inject constructor(
@@ -34,6 +45,9 @@ class ExtratoTransacoesViewModel @Inject constructor(
     private val _tipoFiltroTransacao = MutableStateFlow(TipoFiltroTransacao.TODAS)
     val tipoFiltroTransacao = _tipoFiltroTransacao.asStateFlow()
 
+    private val _ordemTransacao = MutableStateFlow(OrdemTransacao.MAIS_RECENTES)
+    val ordemTransacao = _ordemTransacao.asStateFlow()
+
     private val _dataInicio = MutableStateFlow<Long?>(null)
     val dataInicio = _dataInicio.asStateFlow()
 
@@ -49,20 +63,26 @@ class ExtratoTransacoesViewModel @Inject constructor(
                 Triple(tipo, inicio, fim)
             }
 
-            combine(
-                transacaoRepository.all,
+            val filtrosParamsFlow = combine(
                 _searchQuery,
                 _selectedCategoryIds,
                 _tipoFiltroTransacao,
+                _ordemTransacao,
                 filtroDataFlow
-            ) { transactions, query, filterCatIds, tipoTransacao, filtroData ->
+            ) { query, filterCatIds, tipoTransacao, ordem, filtroData ->
                 val (tipoData, inicio, fim) = filtroData
+                FiltrosExtratoParams(query, filterCatIds, tipoTransacao, ordem, tipoData, inicio, fim)
+            }
 
+            combine(
+                transacaoRepository.all,
+                filtrosParamsFlow
+            ) { transactions, params ->
                 val transacoesFiltradas = transactions.filter { item ->
                     val timestamp = item.transaction.dateTimestamp
 
                     // 1. Filtro por Data (Sem considerar horário)
-                    val matchesDate = when (tipoData) {
+                    val matchesDate = when (params.tipoData) {
                         TipoFiltroData.HOJE -> {
                             val (startToday, endToday) = Formatters.getTodayRange()
                             timestamp in startToday..endToday
@@ -72,30 +92,30 @@ class ExtratoTransacoesViewModel @Inject constructor(
                             timestamp in start7..end7
                         }
                         TipoFiltroData.PERIODO -> {
-                            if (inicio != null && fim != null) {
-                                val start = Formatters.getStartOfDay(inicio)
-                                val end = Formatters.getEndOfDay(fim)
+                            if (params.inicio != null && params.fim != null) {
+                                val start = Formatters.getStartOfDay(params.inicio)
+                                val end = Formatters.getEndOfDay(params.fim)
                                 timestamp in start..end
                             } else true
                         }
                     }
 
                     // 2. Filtro por Busca de Texto
-                    val matchesQuery = if (query.isNotBlank()) {
+                    val matchesQuery = if (params.query.isNotBlank()) {
                         if (item.transaction.description.isBlank()) {
                             false
                         } else {
-                            item.run { transaction.description.contains(query, ignoreCase = true) }
+                            item.run { transaction.description.contains(params.query, ignoreCase = true) }
                         }
                     } else {
                         true
                     }
 
                     // 3. Filtro por Categorias Selecionadas (Cumulativo)
-                    val matchesCategory = filterCatIds.isEmpty() || item.transaction.categoryId in filterCatIds
+                    val matchesCategory = params.filterCatIds.isEmpty() || item.transaction.categoryId in params.filterCatIds
 
                     // 4. Filtro por Tipo de Transação (Todas / Receitas / Despesas)
-                    val matchesType = when (tipoTransacao) {
+                    val matchesType = when (params.tipoTransacao) {
                         TipoFiltroTransacao.TODAS -> true
                         TipoFiltroTransacao.RECEITAS -> item.transaction.type == TransactionType.INCOME
                         TipoFiltroTransacao.DESPESAS -> item.transaction.type == TransactionType.EXPENSE
@@ -104,14 +124,23 @@ class ExtratoTransacoesViewModel @Inject constructor(
                     matchesDate && matchesQuery && matchesCategory && matchesType
                 }
 
+                // 5. Aplicação da Ordenação dos Resultados
+                val transacoesOrdenadas = when (params.ordem) {
+                    OrdemTransacao.MAIS_RECENTES -> transacoesFiltradas.sortedByDescending { it.transaction.dateTimestamp }
+                    OrdemTransacao.MAIS_ANTIGAS -> transacoesFiltradas.sortedBy { it.transaction.dateTimestamp }
+                    OrdemTransacao.MAIOR_VALOR -> transacoesFiltradas.sortedByDescending { it.transaction.amount }
+                    OrdemTransacao.MENOR_VALOR -> transacoesFiltradas.sortedBy { it.transaction.amount }
+                }
+
                 ExtratoTransacoesUiState(
-                    transacoes = transacoesFiltradas,
-                    buscaQuery = query,
-                    categoriaFiltroIds = filterCatIds,
-                    tipoFiltroData = tipoData,
-                    tipoFiltroTransacao = tipoTransacao,
-                    dataInicioTimestamp = inicio,
-                    dataFimTimestamp = fim,
+                    transacoes = transacoesOrdenadas,
+                    buscaQuery = params.query,
+                    categoriaFiltroIds = params.filterCatIds,
+                    tipoFiltroData = params.tipoData,
+                    tipoFiltroTransacao = params.tipoTransacao,
+                    ordemTransacao = params.ordem,
+                    dataInicioTimestamp = params.inicio,
+                    dataFimTimestamp = params.fim,
                     loading = false
                 )
             }.collect { state ->
@@ -144,6 +173,10 @@ class ExtratoTransacoesViewModel @Inject constructor(
 
     fun onTipoFiltroTransacaoChanged(tipo: TipoFiltroTransacao) {
         _tipoFiltroTransacao.value = tipo
+    }
+
+    fun onOrdemTransacaoChanged(ordem: OrdemTransacao) {
+        _ordemTransacao.value = ordem
     }
 
     fun onPeriodoDataChanged(dataInicio: Long?, dataFim: Long?) {

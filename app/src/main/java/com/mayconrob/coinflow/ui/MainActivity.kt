@@ -152,6 +152,7 @@ fun MainContent(
                 onCategoryFilterChanged = { extratoViewModel.onCategoryFilterChanged(it) },
                 onTipoFiltroDataChanged = { extratoViewModel.onTipoFiltroDataChanged(it) },
                 onTipoFiltroTransacaoChanged = { extratoViewModel.onTipoFiltroTransacaoChanged(it) },
+                onOrdemTransacaoChanged = { extratoViewModel.onOrdemTransacaoChanged(it) },
                 onPeriodoDataChanged = { start, end ->
                     extratoViewModel.onPeriodoDataChanged(
                         start,
