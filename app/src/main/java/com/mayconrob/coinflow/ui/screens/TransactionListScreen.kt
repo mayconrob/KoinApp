@@ -88,6 +88,14 @@ fun TransactionListScreen(
         LazyRow {
             item {
                 FilterChip(
+                    selected = state.tipoFiltroData == TipoFiltroData.HOJE,
+                    onClick = { onTipoFiltroDataChanged(TipoFiltroData.HOJE) },
+                    label = { Text("Hoje") },
+                    modifier = Modifier.padding(end = 6.dp)
+                )
+            }
+            item {
+                FilterChip(
                     selected = state.tipoFiltroData == TipoFiltroData.ULTIMOS_7_DIAS,
                     onClick = { onTipoFiltroDataChanged(TipoFiltroData.ULTIMOS_7_DIAS) },
                     label = { Text("Últimos 7 dias") },
