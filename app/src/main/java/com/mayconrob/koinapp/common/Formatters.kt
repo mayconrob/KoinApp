@@ -8,7 +8,7 @@
  * (at your option) any later version.
  */
 
-package com.mayconrob.koinapp.util
+package com.mayconrob.koinapp.common
 
 import java.math.BigDecimal
 import java.text.NumberFormat

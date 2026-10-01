@@ -28,7 +28,7 @@ import com.mayconrob.koinapp.ui.theme.ExpenseRed
 import com.mayconrob.koinapp.ui.theme.IncomeGreen
 import com.mayconrob.koinapp.ui.theme.WarningYellow
 import com.mayconrob.koinapp.ui.viewmodel.ConsumoOrcamentoCategoriaUiState
-import com.mayconrob.koinapp.util.Formatters
+import com.mayconrob.koinapp.common.Formatters
 
 @Composable
 fun CategoryBudgetCard(

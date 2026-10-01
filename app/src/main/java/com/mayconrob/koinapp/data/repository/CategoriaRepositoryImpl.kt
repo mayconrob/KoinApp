@@ -11,8 +11,12 @@
 package com.mayconrob.koinapp.data.repository
 
 import com.mayconrob.koinapp.data.local.CategoryDao
-import com.mayconrob.koinapp.data.local.CategoryEntity
+import com.mayconrob.koinapp.data.mapper.toDomain
+import com.mayconrob.koinapp.data.mapper.toEntity
+import com.mayconrob.koinapp.domain.model.Category
+import com.mayconrob.koinapp.domain.repository.ICategoriaRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -21,17 +25,19 @@ class CategoriaRepositoryImpl @Inject constructor(
     private val categoryDao: CategoryDao
 ) : ICategoriaRepository {
 
-    override val all: Flow<List<CategoryEntity>> = categoryDao.getAllCategories()
-
-    override suspend fun insert(category: CategoryEntity): Long {
-        return categoryDao.insert(category)
+    override val all: Flow<List<Category>> = categoryDao.getAll().map { list ->
+        list.map { it.toDomain() }
     }
 
-    override suspend fun update(category: CategoryEntity) {
-        categoryDao.update(category)
+    override suspend fun insert(category: Category): Long {
+        return categoryDao.insert(category.toEntity())
     }
 
-    override suspend fun delete(category: CategoryEntity) {
-        categoryDao.delete(category)
+    override suspend fun update(category: Category) {
+        categoryDao.update(category.toEntity())
+    }
+
+    override suspend fun delete(category: Category) {
+        categoryDao.delete(category.toEntity())
     }
 }

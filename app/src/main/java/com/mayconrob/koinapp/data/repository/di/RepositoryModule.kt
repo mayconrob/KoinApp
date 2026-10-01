@@ -1,19 +1,9 @@
-/*
- * KoinApp - Gestão Financeira Pessoal
- * Copyright (C) 2026 Maycon Roberto GitHub: @mayconrob
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- */
-
-package com.mayconrob.koinapp.di
+package com.mayconrob.koinapp.data.repository.di
 
 import com.mayconrob.koinapp.data.repository.CategoriaRepositoryImpl
-import com.mayconrob.koinapp.data.repository.ICategoriaRepository
-import com.mayconrob.koinapp.data.repository.ITransacaoRepository
 import com.mayconrob.koinapp.data.repository.TransacaoRepositoryImpl
+import com.mayconrob.koinapp.domain.repository.ICategoriaRepository
+import com.mayconrob.koinapp.domain.repository.ITransacaoRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

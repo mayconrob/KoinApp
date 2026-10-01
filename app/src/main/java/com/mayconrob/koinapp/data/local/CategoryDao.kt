@@ -22,10 +22,10 @@ import kotlinx.coroutines.flow.Flow
 interface CategoryDao {
 
     @Query("SELECT * FROM categories ORDER BY name ASC")
-    fun getAllCategories(): Flow<List<CategoryEntity>>
+    fun getAll(): Flow<List<CategoryEntity>>
 
     @Query("SELECT * FROM categories WHERE id = :id LIMIT 1")
-    suspend fun getCategoryById(id: Long): CategoryEntity?
+    suspend fun getById(id: Long): CategoryEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(category: CategoryEntity): Long

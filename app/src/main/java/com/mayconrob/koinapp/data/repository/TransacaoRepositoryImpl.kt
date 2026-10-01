@@ -11,9 +11,12 @@
 package com.mayconrob.koinapp.data.repository
 
 import com.mayconrob.koinapp.data.local.TransactionDao
-import com.mayconrob.koinapp.data.local.TransactionEntity
-import com.mayconrob.koinapp.data.local.TransactionWithCategory
-import com.mayconrob.koinapp.model.TransactionType
+import com.mayconrob.koinapp.data.mapper.toDomain
+import com.mayconrob.koinapp.data.mapper.toEntity
+import com.mayconrob.koinapp.domain.model.Transaction
+import com.mayconrob.koinapp.domain.enums.TransactionType
+import com.mayconrob.koinapp.domain.model.TransactionWithCategory
+import com.mayconrob.koinapp.domain.repository.ITransacaoRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.math.BigDecimal
@@ -25,7 +28,9 @@ class TransacaoRepositoryImpl @Inject constructor(
     private val transactionDao: TransactionDao
 ) : ITransacaoRepository {
 
-    override val all: Flow<List<TransactionWithCategory>> = transactionDao.getAllTransactionsWithCategory()
+    override val all: Flow<List<TransactionWithCategory>> = transactionDao.getAllWithCategory().map { list ->
+        list.map { it.toDomain() }
+    }
 
     override val totalIncome: Flow<BigDecimal?> = all.map { list ->
         list.filter { it.transaction.type == TransactionType.INCOME }
@@ -42,15 +47,15 @@ class TransacaoRepositoryImpl @Inject constructor(
             .fold(BigDecimal.ZERO) { acc, item -> acc.add(item.transaction.amount) }
     }
 
-    override suspend fun insert(transaction: TransactionEntity): Long {
-        return transactionDao.insert(transaction)
+    override suspend fun insert(transaction: Transaction): Long {
+        return transactionDao.insert(transaction.toEntity())
     }
 
-    override suspend fun update(transaction: TransactionEntity) {
-        transactionDao.update(transaction)
+    override suspend fun update(transaction: Transaction) {
+        transactionDao.update(transaction.toEntity())
     }
 
-    override suspend fun delete(transaction: TransactionEntity) {
-        transactionDao.delete(transaction)
+    override suspend fun delete(transaction: Transaction) {
+        transactionDao.delete(transaction.toEntity())
     }
 }

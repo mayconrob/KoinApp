@@ -1,11 +1,6 @@
-package com.mayconrob.koinapp.model
+package com.mayconrob.koinapp.domain.model
 
 import java.math.BigDecimal
-
-enum class TransactionType {
-    INCOME,  // Receita / Entrada
-    EXPENSE  // Despesa / Saída
-}
 
 data class FinancialSummary(
     val totalIncome: BigDecimal = BigDecimal.ZERO,

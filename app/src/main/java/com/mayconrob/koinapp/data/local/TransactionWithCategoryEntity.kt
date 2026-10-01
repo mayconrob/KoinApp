@@ -3,7 +3,7 @@ package com.mayconrob.koinapp.data.local
 import androidx.room.Embedded
 import androidx.room.Relation
 
-data class TransactionWithCategory(
+data class TransactionWithCategoryEntity(
     @Embedded val transaction: TransactionEntity,
     @Relation(
         parentColumn = "categoryId",

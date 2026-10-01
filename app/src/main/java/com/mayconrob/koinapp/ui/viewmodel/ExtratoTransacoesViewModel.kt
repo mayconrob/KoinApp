@@ -2,11 +2,11 @@ package com.mayconrob.koinapp.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mayconrob.koinapp.data.local.TransactionEntity
-import com.mayconrob.koinapp.data.local.TransactionWithCategory
-import com.mayconrob.koinapp.data.repository.ITransacaoRepository
-import com.mayconrob.koinapp.model.TransactionType
-import com.mayconrob.koinapp.util.Formatters
+import com.mayconrob.koinapp.domain.model.Transaction
+import com.mayconrob.koinapp.domain.model.TransactionWithCategory
+import com.mayconrob.koinapp.domain.repository.ITransacaoRepository
+import com.mayconrob.koinapp.domain.enums.TransactionType
+import com.mayconrob.koinapp.common.Formatters
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -117,18 +117,18 @@ class ExtratoTransacoesViewModel @Inject constructor(
 
     fun addTransaction(description: String, amount: BigDecimal, type: TransactionType, categoryId: Long) {
         viewModelScope.launch {
-            val entity = TransactionEntity(
+            val transaction = Transaction(
                 description = description,
                 amount = amount,
                 type = type,
                 categoryId = categoryId,
                 dateTimestamp = System.currentTimeMillis()
             )
-            transacaoRepository.insert(entity)
+            transacaoRepository.insert(transaction)
         }
     }
 
-    fun updateTransaction(transaction: TransactionEntity) {
+    fun updateTransaction(transaction: Transaction) {
         viewModelScope.launch {
             transacaoRepository.update(transaction)
         }

@@ -30,13 +30,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.mayconrob.koinapp.data.local.TransactionWithCategory
-import com.mayconrob.koinapp.model.TransactionType
+import com.mayconrob.koinapp.domain.model.TransactionWithCategory
+import com.mayconrob.koinapp.domain.enums.TransactionType
 import com.mayconrob.koinapp.ui.theme.DarkCardBorder
 import com.mayconrob.koinapp.ui.theme.DarkSurface
 import com.mayconrob.koinapp.ui.theme.ExpenseRed
 import com.mayconrob.koinapp.ui.theme.IncomeGreen
-import com.mayconrob.koinapp.util.Formatters
+import com.mayconrob.koinapp.common.Formatters
 
 @Composable
 fun TransactionItem(

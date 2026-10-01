@@ -1,6 +1,6 @@
 package com.mayconrob.koinapp.ui.viewmodel
 
-import com.mayconrob.koinapp.data.local.TransactionWithCategory
+import com.mayconrob.koinapp.domain.model.TransactionWithCategory
 
 enum class TipoFiltroData {
     TODOS,          // Sem filtro de data (Todas as datas)
