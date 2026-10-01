@@ -35,7 +35,7 @@ import com.mayconrob.coinflow.ui.screens.DashboardScreen
 import com.mayconrob.coinflow.ui.screens.TransactionListScreen
 import com.mayconrob.coinflow.ui.theme.AccentIndigo
 import com.mayconrob.coinflow.ui.theme.DarkSurface
-import com.mayconrob.coinflow.ui.theme.KoinAppTheme
+import com.mayconrob.coinflow.ui.theme.CoinFlowTheme
 import com.mayconrob.coinflow.ui.viewmodel.ExtratoTransacoesViewModel
 import com.mayconrob.coinflow.ui.viewmodel.GerenciamentoCategoriasViewModel
 import com.mayconrob.coinflow.ui.viewmodel.PainelFinanceiroViewModel
@@ -47,7 +47,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            KoinAppTheme {
+            CoinFlowTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -138,6 +138,10 @@ fun MainContent(
             0 -> DashboardScreen(
                 state = painelUiState,
                 onAddTransactionClick = { showAddTransactionDialog = true },
+                onToggleVisibility = { painelViewModel.toggleValueVisibility() },
+                onPreviousMonth = { painelViewModel.onPreviousMonth() },
+                onNextMonth = { painelViewModel.onNextMonth() },
+                onMonthYearSelected = { year, month -> painelViewModel.onMonthYearSelected(year, month) },
                 modifier = modifier
             )
 

@@ -26,7 +26,7 @@ class ExtratoTransacoesViewModel @Inject constructor(
 
     private val _selectedCategoryIds = MutableStateFlow<Set<Long>>(emptySet())
 
-    private val _tipoFiltroData = MutableStateFlow(TipoFiltroData.ULTIMOS_7_DIAS)
+    private val _tipoFiltroData = MutableStateFlow(TipoFiltroData.HOJE)
     val tipoFiltroData = _tipoFiltroData.asStateFlow()
 
     private val _dataInicio = MutableStateFlow<Long?>(null)
@@ -57,6 +57,10 @@ class ExtratoTransacoesViewModel @Inject constructor(
 
                     // 1. Filtro por Data (Sem considerar horário)
                     val matchesDate = when (tipoData) {
+                        TipoFiltroData.HOJE -> {
+                            val (startToday, endToday) = Formatters.getTodayRange()
+                            timestamp in startToday..endToday
+                        }
                         TipoFiltroData.ULTIMOS_7_DIAS -> {
                             val (start7, end7) = Formatters.getLast7DaysRange()
                             timestamp in start7..end7
@@ -94,7 +98,7 @@ class ExtratoTransacoesViewModel @Inject constructor(
                     tipoFiltroData = tipoData,
                     dataInicioTimestamp = inicio,
                     dataFimTimestamp = fim,
-                    estaCarregando = false
+                    loading = false
                 )
             }.collect { state ->
                 _uiState.value = state
