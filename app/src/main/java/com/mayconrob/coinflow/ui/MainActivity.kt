@@ -151,6 +151,7 @@ fun MainContent(
                 onSearchQueryChanged = { extratoViewModel.onSearchQueryChanged(it) },
                 onCategoryFilterChanged = { extratoViewModel.onCategoryFilterChanged(it) },
                 onTipoFiltroDataChanged = { extratoViewModel.onTipoFiltroDataChanged(it) },
+                onTipoFiltroTransacaoChanged = { extratoViewModel.onTipoFiltroTransacaoChanged(it) },
                 onPeriodoDataChanged = { start, end ->
                     extratoViewModel.onPeriodoDataChanged(
                         start,

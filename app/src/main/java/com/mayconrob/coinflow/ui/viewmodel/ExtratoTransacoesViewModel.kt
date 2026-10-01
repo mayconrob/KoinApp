@@ -7,6 +7,8 @@ import com.mayconrob.coinflow.domain.model.TransactionWithCategory
 import com.mayconrob.coinflow.domain.repository.ITransacaoRepository
 import com.mayconrob.coinflow.domain.enums.TransactionType
 import com.mayconrob.coinflow.common.Formatters
+import com.mayconrob.coinflow.ui.viewmodel.enums.TipoFiltroData
+import com.mayconrob.coinflow.ui.viewmodel.enums.TipoFiltroTransacao
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -29,6 +31,9 @@ class ExtratoTransacoesViewModel @Inject constructor(
     private val _tipoFiltroData = MutableStateFlow(TipoFiltroData.HOJE)
     val tipoFiltroData = _tipoFiltroData.asStateFlow()
 
+    private val _tipoFiltroTransacao = MutableStateFlow(TipoFiltroTransacao.TODAS)
+    val tipoFiltroTransacao = _tipoFiltroTransacao.asStateFlow()
+
     private val _dataInicio = MutableStateFlow<Long?>(null)
     val dataInicio = _dataInicio.asStateFlow()
 
@@ -48,8 +53,9 @@ class ExtratoTransacoesViewModel @Inject constructor(
                 transacaoRepository.all,
                 _searchQuery,
                 _selectedCategoryIds,
+                _tipoFiltroTransacao,
                 filtroDataFlow
-            ) { transactions, query, filterCatIds, filtroData ->
+            ) { transactions, query, filterCatIds, tipoTransacao, filtroData ->
                 val (tipoData, inicio, fim) = filtroData
 
                 val transacoesFiltradas = transactions.filter { item ->
@@ -88,7 +94,14 @@ class ExtratoTransacoesViewModel @Inject constructor(
                     // 3. Filtro por Categorias Selecionadas (Cumulativo)
                     val matchesCategory = filterCatIds.isEmpty() || item.transaction.categoryId in filterCatIds
 
-                    matchesDate && matchesQuery && matchesCategory
+                    // 4. Filtro por Tipo de Transação (Todas / Receitas / Despesas)
+                    val matchesType = when (tipoTransacao) {
+                        TipoFiltroTransacao.TODAS -> true
+                        TipoFiltroTransacao.RECEITAS -> item.transaction.type == TransactionType.INCOME
+                        TipoFiltroTransacao.DESPESAS -> item.transaction.type == TransactionType.EXPENSE
+                    }
+
+                    matchesDate && matchesQuery && matchesCategory && matchesType
                 }
 
                 ExtratoTransacoesUiState(
@@ -96,6 +109,7 @@ class ExtratoTransacoesViewModel @Inject constructor(
                     buscaQuery = query,
                     categoriaFiltroIds = filterCatIds,
                     tipoFiltroData = tipoData,
+                    tipoFiltroTransacao = tipoTransacao,
                     dataInicioTimestamp = inicio,
                     dataFimTimestamp = fim,
                     loading = false
@@ -126,6 +140,10 @@ class ExtratoTransacoesViewModel @Inject constructor(
 
     fun onTipoFiltroDataChanged(tipo: TipoFiltroData) {
         _tipoFiltroData.value = tipo
+    }
+
+    fun onTipoFiltroTransacaoChanged(tipo: TipoFiltroTransacao) {
+        _tipoFiltroTransacao.value = tipo
     }
 
     fun onPeriodoDataChanged(dataInicio: Long?, dataFim: Long?) {

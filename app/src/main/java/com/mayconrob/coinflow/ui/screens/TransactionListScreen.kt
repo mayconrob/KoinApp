@@ -37,7 +37,8 @@ import com.mayconrob.coinflow.domain.model.TransactionWithCategory
 import com.mayconrob.coinflow.ui.components.DateRangePickerDialog
 import com.mayconrob.coinflow.ui.components.TransactionItem
 import com.mayconrob.coinflow.ui.viewmodel.ExtratoTransacoesUiState
-import com.mayconrob.coinflow.ui.viewmodel.TipoFiltroData
+import com.mayconrob.coinflow.ui.viewmodel.enums.TipoFiltroData
+import com.mayconrob.coinflow.ui.viewmodel.enums.TipoFiltroTransacao
 import com.mayconrob.coinflow.common.Formatters
 import com.mayconrob.coinflow.ui.theme.ExpenseRed
 
@@ -48,6 +49,7 @@ fun TransactionListScreen(
     onSearchQueryChanged: (String) -> Unit,
     onCategoryFilterChanged: (Long?) -> Unit,
     onTipoFiltroDataChanged: (TipoFiltroData) -> Unit,
+    onTipoFiltroTransacaoChanged: (TipoFiltroTransacao) -> Unit,
     onPeriodoDataChanged: (Long?, Long?) -> Unit,
     onEditTransactionClick: (TransactionWithCategory) -> Unit,
     onDeleteTransactionClick: (TransactionWithCategory) -> Unit,
@@ -115,6 +117,36 @@ fun TransactionListScreen(
                     onClick = { showDateRangePicker = true },
                     leadingIcon = { Icon(imageVector = Icons.Default.DateRange, contentDescription = null) },
                     label = { Text(periodoLabel) },
+                    modifier = Modifier.padding(end = 6.dp)
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(6.dp))
+
+        // Chips de Filtro por Tipo de Transação (Todas / Receitas / Despesas)
+        LazyRow {
+            item {
+                FilterChip(
+                    selected = state.tipoFiltroTransacao == TipoFiltroTransacao.TODAS,
+                    onClick = { onTipoFiltroTransacaoChanged(TipoFiltroTransacao.TODAS) },
+                    label = { Text("Todas as Transações") },
+                    modifier = Modifier.padding(end = 6.dp)
+                )
+            }
+            item {
+                FilterChip(
+                    selected = state.tipoFiltroTransacao == TipoFiltroTransacao.RECEITAS,
+                    onClick = { onTipoFiltroTransacaoChanged(TipoFiltroTransacao.RECEITAS) },
+                    label = { Text("Receitas") },
+                    modifier = Modifier.padding(end = 6.dp)
+                )
+            }
+            item {
+                FilterChip(
+                    selected = state.tipoFiltroTransacao == TipoFiltroTransacao.DESPESAS,
+                    onClick = { onTipoFiltroTransacaoChanged(TipoFiltroTransacao.DESPESAS) },
+                    label = { Text("Despesas") },
                     modifier = Modifier.padding(end = 6.dp)
                 )
             }
