@@ -110,8 +110,8 @@ fun CategoriesScreen(
             } else {
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
                     items(state.categorias) { category ->
-                        val isIncome = category.type == TransactionType.INCOME
-                        val typeLabel = if (isIncome) "Receita" else "Despesa"
+                        val isIncome = category.type == TransactionType.ENTRY
+                        val typeLabel = if (isIncome) "Entrada" else "Saída"
                         val typeColor = if (isIncome) IncomeGreen else ExpenseRed
                         val catColor = try {
                             Color(android.graphics.Color.parseColor(category.colorHex))

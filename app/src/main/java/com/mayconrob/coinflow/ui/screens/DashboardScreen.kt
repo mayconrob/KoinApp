@@ -180,7 +180,7 @@ fun DashboardScreen(
                 // Cards Lado a Lado: Entradas vs Saídas
                 Row(modifier = Modifier.fillMaxWidth()) {
                     StatCard(
-                        title = "Receitas",
+                        title = "Entradas",
                         amount = state.resumo.totalIncome,
                         icon = Icons.Default.ArrowUpward,
                         iconTint = IncomeGreen,
@@ -190,7 +190,7 @@ fun DashboardScreen(
                     )
                     Spacer(modifier = Modifier.width(12.dp))
                     StatCard(
-                        title = "Despesas",
+                        title = "Saídas",
                         amount = state.resumo.totalExpenses,
                         icon = Icons.Default.ArrowDownward,
                         iconTint = ExpenseRed,

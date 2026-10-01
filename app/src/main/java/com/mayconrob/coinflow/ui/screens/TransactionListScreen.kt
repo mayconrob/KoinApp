@@ -80,11 +80,11 @@ fun TransactionListScreen(
         )
         Spacer(modifier = Modifier.height(12.dp))
 
-        // Campo de Busca por Descrição / Categoria
+        // Campo de Busca por Descrição
         OutlinedTextField(
             value = state.buscaQuery,
             onValueChange = onSearchQueryChanged,
-            label = { Text("Buscar transação...") },
+            label = { Text("Buscar por descrição") },
             leadingIcon = { Icon(imageVector = Icons.Default.Search, contentDescription = null) },
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
@@ -142,17 +142,17 @@ fun TransactionListScreen(
             }
             item {
                 FilterChip(
-                    selected = state.tipoFiltroTransacao == TipoFiltroTransacao.RECEITAS,
-                    onClick = { onTipoFiltroTransacaoChanged(TipoFiltroTransacao.RECEITAS) },
-                    label = { Text("Receitas") },
+                    selected = state.tipoFiltroTransacao == TipoFiltroTransacao.ENTRADAS,
+                    onClick = { onTipoFiltroTransacaoChanged(TipoFiltroTransacao.ENTRADAS) },
+                    label = { Text("Entradas") },
                     modifier = Modifier.padding(end = 6.dp)
                 )
             }
             item {
                 FilterChip(
-                    selected = state.tipoFiltroTransacao == TipoFiltroTransacao.DESPESAS,
-                    onClick = { onTipoFiltroTransacaoChanged(TipoFiltroTransacao.DESPESAS) },
-                    label = { Text("Despesas") },
+                    selected = state.tipoFiltroTransacao == TipoFiltroTransacao.SAIDAS,
+                    onClick = { onTipoFiltroTransacaoChanged(TipoFiltroTransacao.SAIDAS) },
+                    label = { Text("Saídas") },
                     modifier = Modifier.padding(end = 6.dp)
                 )
             }

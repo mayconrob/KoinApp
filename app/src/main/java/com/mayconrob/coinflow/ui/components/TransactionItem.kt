@@ -41,7 +41,7 @@ fun TransactionItem(
     onEditClick: ((TransactionWithCategory) -> Unit)? = null,
     onDeleteClick: ((TransactionWithCategory) -> Unit)? = null
 ) {
-    val isIncome = item.transaction.type == TransactionType.INCOME
+    val isIncome = item.transaction.type == TransactionType.ENTRY
     val amountPrefix = if (isIncome) "+ " else "- "
     val amountColor = if (isIncome) IncomeGreen else ExpenseRed
 

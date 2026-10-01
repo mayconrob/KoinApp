@@ -62,13 +62,13 @@ abstract class AppDatabase : RoomDatabase() {
 
             suspend fun populateInitialCategories(categoryDao: CategoryDao) {
                 val defaultCategories = listOf(
-                    CategoryEntity(name = "Salário", type = TransactionType.INCOME, colorHex = "#4CAF50"),
-                    CategoryEntity(name = "Freelance", type = TransactionType.INCOME, colorHex = "#00BCD4"),
-                    CategoryEntity(name = "Alimentação", type = TransactionType.EXPENSE, budgetLimit = BigDecimal("800.00"), colorHex = "#FF9800"),
-                    CategoryEntity(name = "Transporte", type = TransactionType.EXPENSE, budgetLimit = BigDecimal("350.00"), colorHex = "#3F51B5"),
-                    CategoryEntity(name = "Moradia", type = TransactionType.EXPENSE, budgetLimit = BigDecimal("1500.00"), colorHex = "#9C27B0"),
-                    CategoryEntity(name = "Lazer", type = TransactionType.EXPENSE, budgetLimit = BigDecimal("400.00"), colorHex = "#E91E63"),
-                    CategoryEntity(name = "Saúde", type = TransactionType.EXPENSE, budgetLimit = BigDecimal("300.00"), colorHex = "#F44336")
+                    CategoryEntity(name = "Salário", type = TransactionType.ENTRY, colorHex = "#4CAF50"),
+                    CategoryEntity(name = "Freelance", type = TransactionType.ENTRY, colorHex = "#00BCD4"),
+                    CategoryEntity(name = "Alimentação", type = TransactionType.EXIT, budgetLimit = BigDecimal("800.00"), colorHex = "#FF9800"),
+                    CategoryEntity(name = "Transporte", type = TransactionType.EXIT, budgetLimit = BigDecimal("350.00"), colorHex = "#3F51B5"),
+                    CategoryEntity(name = "Moradia", type = TransactionType.EXIT, budgetLimit = BigDecimal("1500.00"), colorHex = "#9C27B0"),
+                    CategoryEntity(name = "Lazer", type = TransactionType.EXIT, budgetLimit = BigDecimal("400.00"), colorHex = "#E91E63"),
+                    CategoryEntity(name = "Saúde", type = TransactionType.EXIT, budgetLimit = BigDecimal("300.00"), colorHex = "#F44336")
                 )
                 categoryDao.insert(defaultCategories)
             }

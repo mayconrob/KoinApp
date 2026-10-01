@@ -117,8 +117,8 @@ class ExtratoTransacoesViewModel @Inject constructor(
                     // 4. Filtro por Tipo de Transação (Todas / Receitas / Despesas)
                     val matchesType = when (params.tipoTransacao) {
                         TipoFiltroTransacao.TODAS -> true
-                        TipoFiltroTransacao.RECEITAS -> item.transaction.type == TransactionType.INCOME
-                        TipoFiltroTransacao.DESPESAS -> item.transaction.type == TransactionType.EXPENSE
+                        TipoFiltroTransacao.ENTRADAS -> item.transaction.type == TransactionType.ENTRY
+                        TipoFiltroTransacao.SAIDAS -> item.transaction.type == TransactionType.EXIT
                     }
 
                     matchesDate && matchesQuery && matchesCategory && matchesType

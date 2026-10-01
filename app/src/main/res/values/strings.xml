@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">CoinFlow</string>
+    <string name="overview_incomes">Entradas</string>
+    <string name="overview_expenses">Saídas</string>
+    <string name="transaction_type_entry">Entrada</string>
+    <string name="transaction_type_exit">Saída</string>
+    <string name="transaction_type_transfer">Transferência</string>
+
+
 </resources>
