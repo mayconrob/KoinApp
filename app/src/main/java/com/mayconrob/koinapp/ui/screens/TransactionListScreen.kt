@@ -26,18 +26,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.mayconrob.koinapp.data.local.CategoryEntity
-import com.mayconrob.koinapp.data.local.TransactionWithCategory
+import com.mayconrob.koinapp.domain.model.Category
+import com.mayconrob.koinapp.domain.model.TransactionWithCategory
 import com.mayconrob.koinapp.ui.components.DateRangePickerDialog
 import com.mayconrob.koinapp.ui.components.TransactionItem
 import com.mayconrob.koinapp.ui.viewmodel.ExtratoTransacoesUiState
 import com.mayconrob.koinapp.ui.viewmodel.TipoFiltroData
-import com.mayconrob.koinapp.util.Formatters
+import com.mayconrob.koinapp.common.Formatters
 
 @Composable
 fun TransactionListScreen(
     state: ExtratoTransacoesUiState,
-    categories: List<CategoryEntity>,
+    categories: List<Category>,
     onSearchQueryChanged: (String) -> Unit,
     onCategoryFilterChanged: (Long?) -> Unit,
     onTipoFiltroDataChanged: (TipoFiltroData) -> Unit,

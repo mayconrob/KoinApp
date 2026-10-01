@@ -24,7 +24,7 @@ interface TransactionDao {
 
     @Transaction
     @Query("SELECT * FROM transactions ORDER BY dateTimestamp DESC")
-    fun getAllTransactionsWithCategory(): Flow<List<TransactionWithCategory>>
+    fun getAllWithCategory(): Flow<List<TransactionWithCategoryEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(transaction: TransactionEntity): Long

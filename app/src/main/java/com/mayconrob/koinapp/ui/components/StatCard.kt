@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mayconrob.koinapp.ui.theme.DarkCardBorder
 import com.mayconrob.koinapp.ui.theme.DarkSurface
-import com.mayconrob.koinapp.util.Formatters
+import com.mayconrob.koinapp.common.Formatters
 import java.math.BigDecimal
 
 @Composable

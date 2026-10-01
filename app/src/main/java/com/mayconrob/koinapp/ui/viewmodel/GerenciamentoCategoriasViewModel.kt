@@ -12,9 +12,9 @@ package com.mayconrob.koinapp.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mayconrob.koinapp.data.local.CategoryEntity
-import com.mayconrob.koinapp.data.repository.ICategoriaRepository
-import com.mayconrob.koinapp.model.TransactionType
+import com.mayconrob.koinapp.domain.model.Category
+import com.mayconrob.koinapp.domain.repository.ICategoriaRepository
+import com.mayconrob.koinapp.domain.enums.TransactionType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -44,7 +44,7 @@ class GerenciamentoCategoriasViewModel @Inject constructor(
 
     fun addCategory(name: String, type: TransactionType, budgetLimit: BigDecimal, colorHex: String) {
         viewModelScope.launch {
-            val category = CategoryEntity(
+            val category = Category(
                 name = name,
                 type = type,
                 budgetLimit = budgetLimit,
@@ -54,13 +54,13 @@ class GerenciamentoCategoriasViewModel @Inject constructor(
         }
     }
 
-    fun updateCategory(category: CategoryEntity) {
+    fun updateCategory(category: Category) {
         viewModelScope.launch {
             categoriaRepository.update(category)
         }
     }
 
-    fun deleteCategory(category: CategoryEntity) {
+    fun deleteCategory(category: Category) {
         viewModelScope.launch {
             categoriaRepository.delete(category)
         }

@@ -26,8 +26,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.mayconrob.koinapp.data.local.CategoryEntity
-import com.mayconrob.koinapp.data.local.TransactionWithCategory
+import com.mayconrob.koinapp.domain.model.Category
+import com.mayconrob.koinapp.domain.model.TransactionWithCategory
 import com.mayconrob.koinapp.ui.components.AddCategoryDialog
 import com.mayconrob.koinapp.ui.components.AddTransactionDialog
 import com.mayconrob.koinapp.ui.screens.CategoriesScreen
@@ -74,7 +74,7 @@ fun MainContent(
     var editingTransaction by remember { mutableStateOf<TransactionWithCategory?>(null) }
 
     var showAddCategoryDialog by remember { mutableStateOf(false) }
-    var editingCategory by remember { mutableStateOf<CategoryEntity?>(null) }
+    var editingCategory by remember { mutableStateOf<Category?>(null) }
 
     Scaffold(
         bottomBar = {

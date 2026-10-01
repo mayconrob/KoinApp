@@ -1,6 +1,5 @@
 package com.mayconrob.koinapp.ui.components
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -36,9 +35,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.mayconrob.koinapp.data.local.CategoryEntity
-import com.mayconrob.koinapp.data.local.TransactionWithCategory
-import com.mayconrob.koinapp.model.TransactionType
+import com.mayconrob.koinapp.domain.model.Category
+import com.mayconrob.koinapp.domain.model.TransactionWithCategory
+import com.mayconrob.koinapp.domain.enums.TransactionType
 import com.mayconrob.koinapp.ui.theme.ExpenseRed
 import com.mayconrob.koinapp.ui.theme.IncomeGreen
 import java.math.BigDecimal
@@ -46,7 +45,7 @@ import java.math.BigDecimal
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddTransactionDialog(
-    categories: List<CategoryEntity>,
+    categories: List<Category>,
     transactionToEdit: TransactionWithCategory? = null,
     onDismiss: () -> Unit,
     onConfirm: (description: String, amount: BigDecimal, type: TransactionType, categoryId: Long) -> Unit

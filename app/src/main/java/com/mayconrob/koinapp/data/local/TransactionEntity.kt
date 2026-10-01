@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.mayconrob.koinapp.model.TransactionType
+import com.mayconrob.koinapp.domain.enums.TransactionType
 import java.math.BigDecimal
 
 @Entity(
@@ -26,5 +26,5 @@ data class TransactionEntity(
     val amount: BigDecimal, // Valor financeiro em java.math.BigDecimal
     val type: TransactionType,
     val categoryId: Long,
-    val dateTimestamp: Long = System.currentTimeMillis()
+    val dateTimestamp: Long //Timestamp em Long
 )

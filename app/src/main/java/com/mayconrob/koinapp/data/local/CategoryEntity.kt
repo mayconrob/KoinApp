@@ -2,7 +2,7 @@ package com.mayconrob.koinapp.data.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.mayconrob.koinapp.model.TransactionType
+import com.mayconrob.koinapp.domain.enums.TransactionType
 import java.math.BigDecimal
 
 @Entity(tableName = "categories")

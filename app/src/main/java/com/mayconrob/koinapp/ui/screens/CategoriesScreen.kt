@@ -35,22 +35,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.mayconrob.koinapp.data.local.CategoryEntity
-import com.mayconrob.koinapp.model.TransactionType
+import com.mayconrob.koinapp.domain.model.Category
+import com.mayconrob.koinapp.domain.enums.TransactionType
 import com.mayconrob.koinapp.ui.theme.AccentIndigo
 import com.mayconrob.koinapp.ui.theme.DarkCardBorder
 import com.mayconrob.koinapp.ui.theme.DarkSurface
 import com.mayconrob.koinapp.ui.theme.ExpenseRed
 import com.mayconrob.koinapp.ui.theme.IncomeGreen
 import com.mayconrob.koinapp.ui.viewmodel.GerenciamentoCategoriasUiState
-import com.mayconrob.koinapp.util.Formatters
+import com.mayconrob.koinapp.common.Formatters
+import java.math.BigDecimal
 
 @Composable
 fun CategoriesScreen(
     state: GerenciamentoCategoriasUiState,
     onAddCategoryClick: () -> Unit,
-    onEditCategoryClick: (CategoryEntity) -> Unit,
-    onDeleteCategoryClick: (CategoryEntity) -> Unit,
+    onEditCategoryClick: (Category) -> Unit,
+    onDeleteCategoryClick: (Category) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
@@ -125,7 +126,7 @@ fun CategoriesScreen(
                                         style = MaterialTheme.typography.bodyMedium,
                                         color = typeColor
                                     )
-                                    if (category.budgetLimit > java.math.BigDecimal.ZERO) {
+                                    if (category.budgetLimit > BigDecimal.ZERO) {
                                         Text(
                                             text = " • Teto: " + Formatters.formatCurrency(category.budgetLimit),
                                             style = MaterialTheme.typography.bodyMedium,

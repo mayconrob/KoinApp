@@ -12,11 +12,11 @@ package com.mayconrob.koinapp.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mayconrob.koinapp.data.local.TransactionWithCategory
-import com.mayconrob.koinapp.data.repository.ICategoriaRepository
-import com.mayconrob.koinapp.data.repository.ITransacaoRepository
-import com.mayconrob.koinapp.model.FinancialSummary
-import com.mayconrob.koinapp.model.TransactionType
+import com.mayconrob.koinapp.domain.model.TransactionWithCategory
+import com.mayconrob.koinapp.domain.repository.ICategoriaRepository
+import com.mayconrob.koinapp.domain.repository.ITransacaoRepository
+import com.mayconrob.koinapp.domain.model.FinancialSummary
+import com.mayconrob.koinapp.domain.enums.TransactionType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
