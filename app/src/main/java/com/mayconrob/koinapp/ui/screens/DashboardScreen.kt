@@ -1,5 +1,6 @@
 package com.mayconrob.koinapp.ui.screens
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,7 +21,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -43,9 +47,12 @@ fun DashboardScreen(
             FloatingActionButton(
                 onClick = onAddTransactionClick,
                 containerColor = AccentIndigo,
-                contentColor = MaterialTheme.colorScheme.onPrimary
+                contentColor = MaterialTheme.colorScheme.onPrimary,
+                modifier = Modifier.semantics {
+                    contentDescription = "Adicionar nova transação"
+                }
             ) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Nova Transação")
+                Icon(imageVector = Icons.Default.Add, contentDescription = "Adicionar nova transação")
             }
         },
         containerColor = MaterialTheme.colorScheme.background,
@@ -103,11 +110,22 @@ fun DashboardScreen(
 
                 // Seção Orçamentos por Categoria
                 if (state.consumosOrcamento.isNotEmpty()) {
-                    Text(
-                        text = "Tetos de Orçamento",
-                        style = MaterialTheme.typography.headlineMedium.copy(fontSize = 18.sp),
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "Tetos de Orçamento",
+                            style = MaterialTheme.typography.headlineMedium.copy(fontSize = 18.sp),
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
+                        Text(
+                            text = state.currentMonthLabel,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                        )
+                    }
                     Spacer(modifier = Modifier.height(12.dp))
                 }
             }
