@@ -25,11 +25,23 @@ O projeto foi estruturado seguindo as melhores práticas recomendadas pela Googl
 
 - **Linguagem:** [Kotlin](https://kotlinlang.org/)
 - **UI Framework:** [Jetpack Compose](https://developer.android.com/jetpack/compose) com [Material 3](https://m3.material.io/)
-- **Arquitetura:** MVVM (Model-View-ViewModel) + Clean Architecture
+- **Arquitetura:** MVVM (Model-View-ViewModel) + Clean Architecture (Separação entre Domain Models, Mappers e Room Entities)
 - **Persistência de Dados:** [Room Database](https://developer.android.com/training/data-storage/room)
 - **Assincronismo:** Kotlin Coroutines & StateFlow
-- **Injeção de Dependência:** Koin / Hilt
+- **Injeção de Dependência:** Hilt / Koin
 - **Gerenciador de Build:** Gradle (Kotlin DSL)
+
+---
+
+## 🚀 Melhoria Contínua & Roadmap
+
+O **KoinApp** está em constante evolução arquitetural e funcional. As próximas etapas planejadas para a melhoria contínua do projeto incluem:
+
+- [ ] **Testes Automatizados:** Implementação de suítes de testes unitários (JUnit / MockK) para ViewModels e Use Cases, além de testes de UI com Jetpack Compose.
+- [ ] **Exportação de Dados:** Funcionalidade para exportar e importar dados financeiros em formatos como CSV ou JSON.
+- [ ] **Gráficos e Relatórios Avançados:** Inclusão de gráficos interativos de pizza/barra para análise detalhada de gastos por categoria e histórico mensal.
+- [ ] **Internacionalização (i18n):** Suporte a múltiplos idiomas (Português, Inglês e Espanhol).
+- [ ] **Segurança Adicional:** Suporte opcional a autenticação biométrica (BiometricPrompt) para acesso ao aplicativo.
 
 ---
 
