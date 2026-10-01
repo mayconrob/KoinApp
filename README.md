@@ -25,7 +25,7 @@ O projeto foi estruturado seguindo as melhores práticas recomendadas pela Googl
 
 - **Linguagem:** [Kotlin](https://kotlinlang.org/)
 - **UI Framework:** [Jetpack Compose](https://developer.android.com/jetpack/compose) com [Material 3](https://m3.material.io/)
-- **Arquitetura:** MVVM (Model-View-ViewModel) + Clean Architecture (Separação entre Domain Models, Mappers e Room Entities)
+- **Arquitetura:** MVVM (Model-View-ViewModel) + Clean Architecture (Separação entre Domain, Models, Mappers e Room Entities)
 - **Persistência de Dados:** [Room Database](https://developer.android.com/training/data-storage/room)
 - **Assincronismo:** Kotlin Coroutines & StateFlow
 - **Injeção de Dependência:** Hilt / Koin

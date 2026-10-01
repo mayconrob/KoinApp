@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "KoinApp"
+rootProject.name = "koin-app"
 include(":app")
