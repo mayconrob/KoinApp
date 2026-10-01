@@ -3,20 +3,16 @@ package com.mayconrob.koinapp.ui.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDownward
-import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Icon
@@ -48,45 +44,31 @@ fun TransactionItem(
     val isIncome = item.transaction.type == TransactionType.INCOME
     val amountPrefix = if (isIncome) "+ " else "- "
     val amountColor = if (isIncome) IncomeGreen else ExpenseRed
-    val icon = if (isIncome) Icons.Default.ArrowUpward else Icons.Default.ArrowDownward
 
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .heightIn(min = 60.dp)
             .clip(RoundedCornerShape(12.dp))
             .background(DarkSurface)
             .border(1.dp, DarkCardBorder, RoundedCornerShape(12.dp))
-            .padding(horizontal = 14.dp, vertical = 12.dp),
+            .padding(horizontal = 12.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.weight(1f)) {
-            // Ícone da Categoria / Tipo
-            Box(
-                modifier = Modifier
-                    .size(40.dp)
-                    .clip(CircleShape)
-                    .background(amountColor.copy(alpha = 0.15f)),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = null,
-                    tint = amountColor,
-                    modifier = Modifier.size(20.dp)
-                )
-            }
-            Spacer(modifier = Modifier.width(12.dp))
             Column {
-                Text(
-                    text = item.transaction.description,
-                    style = MaterialTheme.typography.titleMedium.copy(
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 15.sp
-                    ),
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                Spacer(modifier = Modifier.height(2.dp))
+                if (item.transaction.description.isNotBlank()) {
+                    Text(
+                        text = item.transaction.description,
+                        style = MaterialTheme.typography.titleMedium.copy(
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 15.sp
+                        ),
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                }
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
                         text = item.category.name,
@@ -112,24 +94,35 @@ fun TransactionItem(
                 color = amountColor
             )
 
-            if (onEditClick != null) {
-                IconButton(onClick = { onEditClick(item) }) {
-                    Icon(
-                        imageVector = Icons.Default.Edit,
-                        contentDescription = "Editar Transação",
-                        tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-                        modifier = Modifier.size(20.dp)
-                    )
-                }
-            }
-            if (onDeleteClick != null) {
-                IconButton(onClick = { onDeleteClick(item) }) {
-                    Icon(
-                        imageVector = Icons.Default.Delete,
-                        contentDescription = "Excluir Transação",
-                        tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
-                        modifier = Modifier.size(20.dp)
-                    )
+            if (onEditClick != null || onDeleteClick != null) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy((-4).dp)
+                ) {
+                    if (onEditClick != null) {
+                        IconButton(
+                            onClick = { onEditClick(item) }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Edit,
+                                contentDescription = "Editar transação ${item.transaction.description.ifBlank { item.category.name }}",
+                                tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
+                    }
+                    if (onDeleteClick != null) {
+                        IconButton(
+                            onClick = { onDeleteClick(item) }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Delete,
+                                contentDescription = "Excluir transação ${item.transaction.description.ifBlank { item.category.name }}",
+                                tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
+                    }
                 }
             }
         }

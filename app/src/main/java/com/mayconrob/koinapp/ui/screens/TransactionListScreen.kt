@@ -12,17 +12,23 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -33,6 +39,7 @@ import com.mayconrob.koinapp.ui.components.TransactionItem
 import com.mayconrob.koinapp.ui.viewmodel.ExtratoTransacoesUiState
 import com.mayconrob.koinapp.ui.viewmodel.TipoFiltroData
 import com.mayconrob.koinapp.common.Formatters
+import com.mayconrob.koinapp.ui.theme.ExpenseRed
 
 @Composable
 fun TransactionListScreen(
@@ -47,6 +54,7 @@ fun TransactionListScreen(
     modifier: Modifier = Modifier
 ) {
     var showDateRangePicker by remember { mutableStateOf(false) }
+    var transactionToDelete by remember { mutableStateOf<TransactionWithCategory?>(null) }
 
     Column(
         modifier = modifier
@@ -80,14 +88,6 @@ fun TransactionListScreen(
         LazyRow {
             item {
                 FilterChip(
-                    selected = state.tipoFiltroData == TipoFiltroData.TODOS,
-                    onClick = { onTipoFiltroDataChanged(TipoFiltroData.TODOS) },
-                    label = { Text("Todas as Datas") },
-                    modifier = Modifier.padding(end = 6.dp)
-                )
-            }
-            item {
-                FilterChip(
                     selected = state.tipoFiltroData == TipoFiltroData.ULTIMOS_7_DIAS,
                     onClick = { onTipoFiltroDataChanged(TipoFiltroData.ULTIMOS_7_DIAS) },
                     label = { Text("Últimos 7 dias") },
@@ -114,11 +114,11 @@ fun TransactionListScreen(
 
         Spacer(modifier = Modifier.height(6.dp))
 
-        // Chips de Filtro por Categoria
+        // Chips de Filtro por Categoria (Cumulativo)
         LazyRow {
             item {
                 FilterChip(
-                    selected = state.categoriaFiltroId == null,
+                    selected = state.categoriaFiltroIds.isEmpty(),
                     onClick = { onCategoryFilterChanged(null) },
                     label = { Text("Todas as Categorias") },
                     modifier = Modifier.padding(end = 6.dp)
@@ -126,8 +126,8 @@ fun TransactionListScreen(
             }
             items(categories) { cat ->
                 FilterChip(
-                    selected = state.categoriaFiltroId == cat.id,
-                    onClick = { onCategoryFilterChanged(if (state.categoriaFiltroId == cat.id) null else cat.id) },
+                    selected = cat.id in state.categoriaFiltroIds,
+                    onClick = { onCategoryFilterChanged(cat.id) },
                     label = { Text(cat.name) },
                     modifier = Modifier.padding(end = 6.dp)
                 )
@@ -150,7 +150,7 @@ fun TransactionListScreen(
                     TransactionItem(
                         item = item,
                         onEditClick = onEditTransactionClick,
-                        onDeleteClick = onDeleteTransactionClick
+                        onDeleteClick = { transactionToDelete = it }
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                 }
@@ -166,6 +166,56 @@ fun TransactionListScreen(
             onConfirm = { start, end ->
                 onPeriodoDataChanged(start, end)
                 showDateRangePicker = false
+            }
+        )
+    }
+
+    if (transactionToDelete != null) {
+        val target = transactionToDelete!!
+        val desc = target.transaction.description.ifBlank { target.category.name }
+        val amountStr = Formatters.formatCurrency(target.transaction.amount)
+
+        AlertDialog(
+            onDismissRequest = { transactionToDelete = null },
+            title = {
+                Text(
+                    text = "Excluir Transação",
+                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
+                )
+            },
+            text = {
+                Text(
+                    text = "Tem certeza que deseja excluir a transação \"$desc\" no valor de $amountStr?",
+                    modifier = Modifier.semantics {
+                        contentDescription = "Confirmação de exclusão da transação $desc no valor de $amountStr"
+                    }
+                )
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        onDeleteTransactionClick(target)
+                        transactionToDelete = null
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = ExpenseRed
+                    ),
+                    modifier = Modifier.semantics {
+                        contentDescription = "Botão confirmar exclusão da transação $desc"
+                    }
+                ) {
+                    Text("Excluir")
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { transactionToDelete = null },
+                    modifier = Modifier.semantics {
+                        contentDescription = "Botão cancelar exclusão da transação $desc"
+                    }
+                ) {
+                    Text("Cancelar")
+                }
             }
         )
     }

@@ -24,10 +24,9 @@ class ExtratoTransacoesViewModel @Inject constructor(
     private val _searchQuery = MutableStateFlow("")
     val searchQuery = _searchQuery.asStateFlow()
 
-    private val _selectedCategoryId = MutableStateFlow<Long?>(null)
-    val selectedCategoryId = _selectedCategoryId.asStateFlow()
+    private val _selectedCategoryIds = MutableStateFlow<Set<Long>>(emptySet())
 
-    private val _tipoFiltroData = MutableStateFlow(TipoFiltroData.TODOS)
+    private val _tipoFiltroData = MutableStateFlow(TipoFiltroData.ULTIMOS_7_DIAS)
     val tipoFiltroData = _tipoFiltroData.asStateFlow()
 
     private val _dataInicio = MutableStateFlow<Long?>(null)
@@ -48,9 +47,9 @@ class ExtratoTransacoesViewModel @Inject constructor(
             combine(
                 transacaoRepository.all,
                 _searchQuery,
-                _selectedCategoryId,
+                _selectedCategoryIds,
                 filtroDataFlow
-            ) { transactions, query, filterCatId, filtroData ->
+            ) { transactions, query, filterCatIds, filtroData ->
                 val (tipoData, inicio, fim) = filtroData
 
                 val transacoesFiltradas = transactions.filter { item ->
@@ -58,7 +57,6 @@ class ExtratoTransacoesViewModel @Inject constructor(
 
                     // 1. Filtro por Data (Sem considerar horário)
                     val matchesDate = when (tipoData) {
-                        TipoFiltroData.TODOS -> true
                         TipoFiltroData.ULTIMOS_7_DIAS -> {
                             val (start7, end7) = Formatters.getLast7DaysRange()
                             timestamp in start7..end7
@@ -73,11 +71,18 @@ class ExtratoTransacoesViewModel @Inject constructor(
                     }
 
                     // 2. Filtro por Busca de Texto
-                    val matchesQuery = item.transaction.description.contains(query, ignoreCase = true) ||
-                            item.category.name.contains(query, ignoreCase = true)
+                    val matchesQuery = if (query.isNotBlank()) {
+                        if (item.transaction.description.isBlank()) {
+                            false
+                        } else {
+                            item.run { transaction.description.contains(query, ignoreCase = true) }
+                        }
+                    } else {
+                        true
+                    }
 
-                    // 3. Filtro por Categoria Selecionada
-                    val matchesCategory = filterCatId == null || item.transaction.categoryId == filterCatId
+                    // 3. Filtro por Categorias Selecionadas (Cumulativo)
+                    val matchesCategory = filterCatIds.isEmpty() || item.transaction.categoryId in filterCatIds
 
                     matchesDate && matchesQuery && matchesCategory
                 }
@@ -85,7 +90,7 @@ class ExtratoTransacoesViewModel @Inject constructor(
                 ExtratoTransacoesUiState(
                     transacoes = transacoesFiltradas,
                     buscaQuery = query,
-                    categoriaFiltroId = filterCatId,
+                    categoriaFiltroIds = filterCatIds,
                     tipoFiltroData = tipoData,
                     dataInicioTimestamp = inicio,
                     dataFimTimestamp = fim,
@@ -102,7 +107,17 @@ class ExtratoTransacoesViewModel @Inject constructor(
     }
 
     fun onCategoryFilterChanged(categoryId: Long?) {
-        _selectedCategoryId.value = categoryId
+        if (categoryId == null) {
+            _selectedCategoryIds.value = emptySet()
+        } else {
+            val current = _selectedCategoryIds.value.toMutableSet()
+            if (current.contains(categoryId)) {
+                current.remove(categoryId)
+            } else {
+                current.add(categoryId)
+            }
+            _selectedCategoryIds.value = current
+        }
     }
 
     fun onTipoFiltroDataChanged(tipo: TipoFiltroData) {

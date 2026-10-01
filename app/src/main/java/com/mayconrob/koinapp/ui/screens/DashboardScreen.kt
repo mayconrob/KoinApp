@@ -74,7 +74,8 @@ fun DashboardScreen(
                     title = "Saldo Total",
                     amount = state.resumo.currentBalance,
                     icon = Icons.Default.AccountBalanceWallet,
-                    iconTint = AccentIndigo
+                    iconTint = AccentIndigo,
+                    showIcon = true
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))

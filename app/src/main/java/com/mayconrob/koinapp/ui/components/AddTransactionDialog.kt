@@ -52,17 +52,29 @@ fun AddTransactionDialog(
 ) {
     val isEditing = transactionToEdit != null
 
-    var description by remember { mutableStateOf(transactionToEdit?.transaction?.description ?: "") }
-    var amountText by remember { mutableStateOf(transactionToEdit?.transaction?.amount?.toPlainString() ?: "") }
-    var selectedType by remember { mutableStateOf(transactionToEdit?.transaction?.type ?: TransactionType.EXPENSE) }
+    var description by remember {
+        mutableStateOf(
+            transactionToEdit?.transaction?.description ?: ""
+        )
+    }
+    var amountText by remember {
+        mutableStateOf(
+            transactionToEdit?.transaction?.amount?.toPlainString() ?: ""
+        )
+    }
+    var selectedType by remember {
+        mutableStateOf<TransactionType?>(
+            transactionToEdit?.transaction?.type
+        )
+    }
 
-    val filteredCategories = categories.filter { it.type == selectedType }
+    val filteredCategories = if (selectedType != null) categories.filter { it.type == selectedType } else emptyList()
     var selectedCategory by remember(selectedType, categories) {
         mutableStateOf(
             if (isEditing && selectedType == transactionToEdit?.transaction?.type) {
-                categories.find { it.id == transactionToEdit.transaction.categoryId } ?: filteredCategories.firstOrNull()
+                categories.find { id -> id.id == transactionToEdit?.transaction?.categoryId }
             } else {
-                filteredCategories.firstOrNull()
+                null
             }
         )
     }
@@ -85,20 +97,26 @@ fun AddTransactionDialog(
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     RadioButton(
                         selected = selectedType == TransactionType.EXPENSE,
-                        onClick = { selectedType = TransactionType.EXPENSE }
+                        onClick = {
+                            selectedType = TransactionType.EXPENSE
+                            selectedCategory = null
+                        }
                     )
                     Text("Despesa", color = ExpenseRed)
                     Spacer(modifier = Modifier.padding(horizontal = 8.dp))
                     RadioButton(
                         selected = selectedType == TransactionType.INCOME,
-                        onClick = { selectedType = TransactionType.INCOME }
+                        onClick = {
+                            selectedType = TransactionType.INCOME
+                            selectedCategory = null
+                        }
                     )
                     Text("Receita", color = IncomeGreen)
                 }
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // Descrição
+                // Descrição (Opcional)
                 OutlinedTextField(
                     value = description,
                     onValueChange = { description = it },
@@ -113,7 +131,7 @@ fun AddTransactionDialog(
                 OutlinedTextField(
                     value = amountText,
                     onValueChange = { amountText = it },
-                    label = { Text("Valor (R$)") },
+                    label = { Text("Valor (R$) *") },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
@@ -123,57 +141,80 @@ fun AddTransactionDialog(
 
                 // Seletor de Categoria com Barra de Rolagem Visível
                 ExposedDropdownMenuBox(
-                    expanded = dropdownExpanded,
-                    onExpandedChange = { dropdownExpanded = !dropdownExpanded }
+                    expanded = dropdownExpanded && selectedType != null,
+                    onExpandedChange = { if (selectedType != null) dropdownExpanded = !dropdownExpanded }
                 ) {
                     OutlinedTextField(
-                        value = selectedCategory?.name ?: "Selecione uma Categoria",
+                        value = if (selectedType == null) "Selecione o tipo primeiro" else (selectedCategory?.name ?: "Selecione"),
                         onValueChange = {},
                         readOnly = true,
-                        label = { Text("Categoria") },
+                        enabled = selectedType != null,
+                        label = { Text("Categoria *") },
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = dropdownExpanded) },
-                        modifier = Modifier.menuAnchor().fillMaxWidth()
-                    )
-                    ExposedDropdownMenu(
-                        expanded = dropdownExpanded,
-                        onDismissRequest = { dropdownExpanded = false },
                         modifier = Modifier
-                            .heightIn(max = 220.dp)
-                            .drawWithContent {
-                                drawContent()
-                                val needDrawScrollbar = scrollState.maxValue > 0
-                                if (needDrawScrollbar) {
-                                    val totalHeight = size.height
-                                    val progress = scrollState.value.toFloat() / scrollState.maxValue
-                                    val scrollbarHeight = (totalHeight * (totalHeight / (totalHeight + scrollState.maxValue))).coerceAtLeast(30f)
-                                    val scrollbarTop = progress * (totalHeight - scrollbarHeight)
-                                    drawRect(
-                                        color = Color.Gray.copy(alpha = 0.7f),
-                                        topLeft = Offset(size.width - 8.dp.toPx(), scrollbarTop),
-                                        size = Size(4.dp.toPx(), scrollbarHeight)
-                                    )
-                                }
-                            }
-                    ) {
-                        Column(
+                            .menuAnchor()
+                            .fillMaxWidth()
+                    )
+                    if (selectedType != null) {
+                        ExposedDropdownMenu(
+                            expanded = dropdownExpanded,
+                            onDismissRequest = { dropdownExpanded = false },
                             modifier = Modifier
                                 .heightIn(max = 220.dp)
-                                .verticalScroll(scrollState)
+                                .drawWithContent {
+                                    drawContent()
+                                    val needDrawScrollbar = scrollState.maxValue > 0
+                                    if (needDrawScrollbar) {
+                                        val totalHeight = size.height
+                                        val progress =
+                                            scrollState.value.toFloat() / scrollState.maxValue
+                                        val scrollbarHeight =
+                                            (totalHeight * (totalHeight / (totalHeight + scrollState.maxValue))).coerceAtLeast(
+                                                30f
+                                            )
+                                        val scrollbarTop = progress * (totalHeight - scrollbarHeight)
+                                        drawRect(
+                                            color = Color.Gray.copy(alpha = 0.7f),
+                                            topLeft = Offset(size.width - 8.dp.toPx(), scrollbarTop),
+                                            size = Size(4.dp.toPx(), scrollbarHeight)
+                                        )
+                                    }
+                                }
                         ) {
-                            if (filteredCategories.isEmpty()) {
+                            Column(
+                                modifier = Modifier
+                                    .heightIn(max = 220.dp)
+                                    .verticalScroll(scrollState)
+                            ) {
+                                // Primeira linha: "Selecione"
                                 DropdownMenuItem(
-                                    text = { Text("Nenhuma categoria de ${if (selectedType == TransactionType.INCOME) "Receita" else "Despesa"}") },
-                                    onClick = { dropdownExpanded = false }
+                                    text = {
+                                        Text(
+                                            "Selecione",
+                                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                                        )
+                                    },
+                                    onClick = {
+                                        selectedCategory = null
+                                        dropdownExpanded = false
+                                    }
                                 )
-                            } else {
-                                filteredCategories.forEach { cat ->
+
+                                if (filteredCategories.isEmpty()) {
                                     DropdownMenuItem(
-                                        text = { Text(cat.name) },
-                                        onClick = {
-                                            selectedCategory = cat
-                                            dropdownExpanded = false
-                                        }
+                                        text = { Text("Nenhuma categoria de ${if (selectedType == TransactionType.INCOME) "Receita" else "Despesa"}") },
+                                        onClick = { dropdownExpanded = false }
                                     )
+                                } else {
+                                    filteredCategories.forEach { cat ->
+                                        DropdownMenuItem(
+                                            text = { Text(cat.name) },
+                                            onClick = {
+                                                selectedCategory = cat
+                                                dropdownExpanded = false
+                                            }
+                                        )
+                                    }
                                 }
                             }
                         }
@@ -182,7 +223,11 @@ fun AddTransactionDialog(
 
                 errorMessage?.let { err ->
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = err, color = ExpenseRed, style = MaterialTheme.typography.bodyMedium)
+                    Text(
+                        text = err,
+                        color = ExpenseRed,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
                 }
             }
         },
@@ -195,15 +240,20 @@ fun AddTransactionDialog(
                     } catch (e: Exception) {
                         null
                     }
+                    val type = selectedType
                     val category = selectedCategory
-                    if (description.isBlank()) {
-                        errorMessage = "Informe uma descrição válida"
-                    } else if (amount == null || amount <= BigDecimal.ZERO) {
-                        errorMessage = "Informe um valor maior que zero"
+                    val finalDescription = description.trim()
+
+                    if (type == null) {
+                        errorMessage = "Selecione o tipo da transação (Despesa ou Receita)"
+                    } else if (cleanAmountText.isEmpty() || amount == null) {
+                        errorMessage = "Informe o valor da transação"
+                    } else if (amount <= BigDecimal.ZERO) {
+                        errorMessage = "O valor deve ser maior que zero"
                     } else if (category == null) {
-                        errorMessage = "Selecione uma categoria (ou crie uma categoria de ${if (selectedType == TransactionType.INCOME) "Receita" else "Despesa"})"
+                        errorMessage = "Selecione uma categoria válida"
                     } else {
-                        onConfirm(description, amount, selectedType, category.id)
+                        onConfirm(finalDescription, amount, type, category.id)
                         onDismiss()
                     }
                 }

@@ -21,17 +21,27 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -54,6 +64,8 @@ fun CategoriesScreen(
     onDeleteCategoryClick: (Category) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var categoryToDelete by remember { mutableStateOf<Category?>(null) }
+
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
@@ -61,7 +73,7 @@ fun CategoriesScreen(
                 containerColor = AccentIndigo,
                 contentColor = MaterialTheme.colorScheme.onPrimary
             ) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Nova Categoria")
+                Icon(imageVector = Icons.Default.Add, contentDescription = "Adicionar nova categoria")
             }
         },
         containerColor = MaterialTheme.colorScheme.background,
@@ -84,81 +96,144 @@ fun CategoriesScreen(
             )
             Spacer(modifier = Modifier.height(16.dp))
 
-            LazyColumn(modifier = Modifier.fillMaxSize()) {
-                items(state.categorias) { category ->
-                    val isIncome = category.type == TransactionType.INCOME
-                    val typeLabel = if (isIncome) "Receita" else "Despesa"
-                    val typeColor = if (isIncome) IncomeGreen else ExpenseRed
-                    val catColor = try {
-                        Color(android.graphics.Color.parseColor(category.colorHex))
-                    } catch (e: Exception) {
-                        typeColor
-                    }
+            if (state.categorias.isEmpty()) {
+                Text(
+                    text = "Nenhuma categoria cadastrada. Clique no botão + para adicionar!",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                    modifier = Modifier.padding(vertical = 24.dp)
+                )
+            } else {
+                LazyColumn(modifier = Modifier.fillMaxSize()) {
+                    items(state.categorias) { category ->
+                        val isIncome = category.type == TransactionType.INCOME
+                        val typeLabel = if (isIncome) "Receita" else "Despesa"
+                        val typeColor = if (isIncome) IncomeGreen else ExpenseRed
+                        val catColor = try {
+                            Color(android.graphics.Color.parseColor(category.colorHex))
+                        } catch (e: Exception) {
+                            typeColor
+                        }
 
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clip(RoundedCornerShape(12.dp))
-                            .background(DarkSurface)
-                            .border(1.dp, DarkCardBorder, RoundedCornerShape(12.dp))
-                            .padding(14.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.weight(1f)) {
-                            Box(
-                                modifier = Modifier
-                                    .size(36.dp)
-                                    .clip(CircleShape)
-                                    .background(catColor)
-                            )
-                            Spacer(modifier = Modifier.width(12.dp))
-                            Column {
-                                Text(
-                                    text = category.name,
-                                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                                    color = MaterialTheme.colorScheme.onSurface
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clip(RoundedCornerShape(12.dp))
+                                .background(DarkSurface)
+                                .border(1.dp, DarkCardBorder, RoundedCornerShape(12.dp))
+                                .padding(horizontal = 12.dp, vertical = 8.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.weight(1f)) {
+                                Box(
+                                    modifier = Modifier
+                                        .size(36.dp)
+                                        .clip(CircleShape)
+                                        .background(catColor)
                                 )
-                                Spacer(modifier = Modifier.height(2.dp))
-                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                Spacer(modifier = Modifier.width(10.dp))
+                                Column {
                                     Text(
-                                        text = typeLabel,
-                                        style = MaterialTheme.typography.bodyMedium,
-                                        color = typeColor
+                                        text = category.name,
+                                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                                        color = MaterialTheme.colorScheme.onSurface
                                     )
-                                    if (category.budgetLimit > BigDecimal.ZERO) {
+                                    Spacer(modifier = Modifier.height(2.dp))
+                                    Row(verticalAlignment = Alignment.CenterVertically) {
                                         Text(
-                                            text = " • Teto: " + Formatters.formatCurrency(category.budgetLimit),
+                                            text = typeLabel,
                                             style = MaterialTheme.typography.bodyMedium,
-                                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                                            color = typeColor
                                         )
+                                        if (category.budgetLimit > BigDecimal.ZERO) {
+                                            Text(
+                                                text = " • Teto: " + Formatters.formatCurrency(category.budgetLimit),
+                                                style = MaterialTheme.typography.bodyMedium,
+                                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                                            )
+                                        }
                                     }
                                 }
                             }
-                        }
 
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            IconButton(onClick = { onEditCategoryClick(category) }) {
-                                Icon(
-                                    imageVector = Icons.Default.Edit,
-                                    contentDescription = "Editar Categoria",
-                                    tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-                                    modifier = Modifier.size(20.dp)
-                                )
-                            }
-                            IconButton(onClick = { onDeleteCategoryClick(category) }) {
-                                Icon(
-                                    imageVector = Icons.Default.Delete,
-                                    contentDescription = "Excluir Categoria",
-                                    tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
-                                    modifier = Modifier.size(20.dp)
-                                )
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy((-4).dp)
+                            ) {
+                                IconButton(
+                                    onClick = { onEditCategoryClick(category) }
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Edit,
+                                        contentDescription = "Editar categoria ${category.name}",
+                                        tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                                        modifier = Modifier.size(20.dp)
+                                    )
+                                }
+                                IconButton(
+                                    onClick = { categoryToDelete = category }
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Delete,
+                                        contentDescription = "Excluir categoria ${category.name}",
+                                        tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
+                                        modifier = Modifier.size(20.dp)
+                                    )
+                                }
                             }
                         }
+                        Spacer(modifier = Modifier.height(8.dp))
                     }
-                    Spacer(modifier = Modifier.height(8.dp))
                 }
             }
         }
+    }
+
+    if (categoryToDelete != null) {
+        val target = categoryToDelete!!
+        AlertDialog(
+            onDismissRequest = { categoryToDelete = null },
+            title = {
+                Text(
+                    text = "Excluir Categoria",
+                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
+                )
+            },
+            text = {
+                Text(
+                    text = "Tem certeza que deseja excluir a categoria \"${target.name}\"?",
+                    modifier = Modifier.semantics {
+                        contentDescription = "Confirmação de exclusão da categoria ${target.name}"
+                    }
+                )
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        onDeleteCategoryClick(target)
+                        categoryToDelete = null
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = ExpenseRed
+                    ),
+                    modifier = Modifier.semantics {
+                        contentDescription = "Botão confirmar exclusão da categoria ${target.name}"
+                    }
+                ) {
+                    Text("Excluir")
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { categoryToDelete = null },
+                    modifier = Modifier.semantics {
+                        contentDescription = "Botão cancelar exclusão da categoria ${target.name}"
+                    }
+                ) {
+                    Text("Cancelar")
+                }
+            }
+        )
     }
 }

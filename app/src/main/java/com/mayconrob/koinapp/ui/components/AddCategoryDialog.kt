@@ -48,7 +48,7 @@ fun AddCategoryDialog(
     val colorOptions = listOf("#4CAF50", "#3F51B5", "#FF9800", "#E91E63", "#9C27B0", "#00BCD4", "#F44336")
 
     var name by remember { mutableStateOf(categoryToEdit?.name ?: "") }
-    var selectedType by remember { mutableStateOf(categoryToEdit?.type ?: TransactionType.EXPENSE) }
+    var selectedType by remember { mutableStateOf<TransactionType?>(categoryToEdit?.type) }
     var budgetLimitText by remember {
         mutableStateOf(
             if (categoryToEdit != null && categoryToEdit.budgetLimit > BigDecimal.ZERO)
@@ -56,7 +56,7 @@ fun AddCategoryDialog(
             else ""
         )
     }
-    var selectedColor by remember { mutableStateOf(categoryToEdit?.colorHex ?: colorOptions[0]) }
+    var selectedColor by remember { mutableStateOf<String?>(categoryToEdit?.colorHex) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
 
     val isEditing = categoryToEdit != null
@@ -92,7 +92,7 @@ fun AddCategoryDialog(
                 OutlinedTextField(
                     value = name,
                     onValueChange = { name = it },
-                    label = { Text("Nome da Categoria (ex: Pets, Assinaturas)") },
+                    label = { Text("Nome da Categoria (ex: Pets, Assinaturas) *") },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -103,7 +103,7 @@ fun AddCategoryDialog(
                     OutlinedTextField(
                         value = budgetLimitText,
                         onValueChange = { budgetLimitText = it },
-                        label = { Text("Teto de Orçamento Mensal R$ (Opcional)") },
+                        label = { Text("Teto de Orçamento Mensal R$") },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth()
@@ -111,7 +111,7 @@ fun AddCategoryDialog(
                 }
 
                 Spacer(modifier = Modifier.height(12.dp))
-                Text("Escolha uma Cor:", style = MaterialTheme.typography.bodyMedium)
+                Text("Escolha uma Cor *:", style = MaterialTheme.typography.bodyMedium)
                 Spacer(modifier = Modifier.height(6.dp))
 
                 // Cores
@@ -122,7 +122,7 @@ fun AddCategoryDialog(
                         } catch (e: Exception) {
                             Color.Gray
                         }
-                        val isSelected = selectedColor.equals(hex, ignoreCase = true)
+                        val isSelected = selectedColor?.equals(hex, ignoreCase = true) == true
                         Box(
                             modifier = Modifier
                                 .size(32.dp)
@@ -147,8 +147,15 @@ fun AddCategoryDialog(
         confirmButton = {
             Button(
                 onClick = {
-                    if (name.isBlank()) {
+                    val type = selectedType
+                    val color = selectedColor
+                    val cleanName = name.trim()
+                    if (type == null) {
+                        errorMessage = "Selecione o tipo da categoria (Despesa ou Receita)"
+                    } else if (cleanName.isBlank()) {
                         errorMessage = "Informe o nome da categoria"
+                    } else if (color == null) {
+                        errorMessage = "Selecione uma cor para a categoria"
                     } else {
                         val cleanLimitText = budgetLimitText.replace(',', '.').trim()
                         val limit = try {
@@ -156,7 +163,7 @@ fun AddCategoryDialog(
                         } catch (e: Exception) {
                             BigDecimal.ZERO
                         }
-                        onConfirm(name, selectedType, limit, selectedColor)
+                        onConfirm(cleanName, type, limit, color)
                         onDismiss()
                     }
                 }
