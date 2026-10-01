@@ -62,6 +62,7 @@ fun CategoriesScreen(
     onAddCategoryClick: () -> Unit,
     onEditCategoryClick: (Category) -> Unit,
     onDeleteCategoryClick: (Category) -> Unit,
+    onDismissError: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     var categoryToDelete by remember { mutableStateOf<Category?>(null) }
@@ -232,6 +233,37 @@ fun CategoriesScreen(
                     }
                 ) {
                     Text("Cancelar")
+                }
+            }
+        )
+    }
+
+    if (state.errorMessage != null) {
+        val errorMsg = state.errorMessage!!
+        AlertDialog(
+            onDismissRequest = onDismissError,
+            title = {
+                Text(
+                    text = "Atenção",
+                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
+                )
+            },
+            text = {
+                Text(
+                    text = errorMsg,
+                    modifier = Modifier.semantics {
+                        contentDescription = errorMsg
+                    }
+                )
+            },
+            confirmButton = {
+                Button(
+                    onClick = onDismissError,
+                    modifier = Modifier.semantics {
+                        contentDescription = "Entendi"
+                    }
+                ) {
+                    Text("Entendi")
                 }
             }
         )

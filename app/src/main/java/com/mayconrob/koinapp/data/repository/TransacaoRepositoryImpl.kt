@@ -58,4 +58,8 @@ class TransacaoRepositoryImpl @Inject constructor(
     override suspend fun delete(transaction: Transaction) {
         transactionDao.delete(transaction.toEntity())
     }
+
+    override suspend fun hasTransactionsForCategory(categoryId: Long): Boolean {
+        return transactionDao.countTransactionsForCategory(categoryId) > 0
+    }
 }

@@ -163,6 +163,7 @@ fun MainContent(
                 onAddCategoryClick = { showAddCategoryDialog = true },
                 onEditCategoryClick = { editingCategory = it },
                 onDeleteCategoryClick = { categoriasViewModel.deleteCategory(it) },
+                onDismissError = { categoriasViewModel.clearError() },
                 modifier = modifier
             )
         }

@@ -4,5 +4,6 @@ import com.mayconrob.koinapp.domain.model.Category
 
 data class GerenciamentoCategoriasUiState(
     val categorias: List<Category> = emptyList(),
+    val errorMessage: String? = null,
     val estaCarregando: Boolean = false
 )

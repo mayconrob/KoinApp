@@ -13,4 +13,5 @@ interface ITransacaoRepository {
     suspend fun insert(transaction: Transaction): Long
     suspend fun update(transaction: Transaction)
     suspend fun delete(transaction: Transaction)
+    suspend fun hasTransactionsForCategory(categoryId: Long): Boolean
 }

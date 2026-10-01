@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mayconrob.koinapp.domain.model.Category
 import com.mayconrob.koinapp.domain.repository.ICategoriaRepository
+import com.mayconrob.koinapp.domain.repository.ITransacaoRepository
 import com.mayconrob.koinapp.domain.enums.TransactionType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,7 +26,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GerenciamentoCategoriasViewModel @Inject constructor(
-    private val categoriaRepository: ICategoriaRepository
+    private val categoriaRepository: ICategoriaRepository,
+    private val transacaoRepository: ITransacaoRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(GerenciamentoCategoriasUiState())
@@ -34,7 +36,7 @@ class GerenciamentoCategoriasViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             categoriaRepository.all.collect { categories ->
-                _uiState.value = GerenciamentoCategoriasUiState(
+                _uiState.value = _uiState.value.copy(
                     categorias = categories,
                     estaCarregando = false
                 )
@@ -62,7 +64,18 @@ class GerenciamentoCategoriasViewModel @Inject constructor(
 
     fun deleteCategory(category: Category) {
         viewModelScope.launch {
-            categoriaRepository.delete(category)
+            val hasTransactions = transacaoRepository.hasTransactionsForCategory(category.id)
+            if (hasTransactions) {
+                _uiState.value = _uiState.value.copy(
+                    errorMessage = "Não é possível excluir a categoria \"${category.name}\" pois existem transações vinculadas a ela."
+                )
+            } else {
+                categoriaRepository.delete(category)
+            }
         }
+    }
+
+    fun clearError() {
+        _uiState.value = _uiState.value.copy(errorMessage = null)
     }
 }
