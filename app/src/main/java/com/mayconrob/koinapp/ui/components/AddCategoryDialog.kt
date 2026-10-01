@@ -71,19 +71,31 @@ fun AddCategoryDialog(
         },
         text = {
             Column {
-                // Tipo
+                // Tipo (Despesa / Receita clicáveis)
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    RadioButton(
-                        selected = selectedType == TransactionType.EXPENSE,
-                        onClick = { selectedType = TransactionType.EXPENSE }
-                    )
-                    Text("Despesa", color = ExpenseRed)
-                    Spacer(modifier = Modifier.padding(horizontal = 8.dp))
-                    RadioButton(
-                        selected = selectedType == TransactionType.INCOME,
-                        onClick = { selectedType = TransactionType.INCOME }
-                    )
-                    Text("Receita", color = IncomeGreen)
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.clickable { selectedType = TransactionType.EXPENSE }
+                    ) {
+                        RadioButton(
+                            selected = selectedType == TransactionType.EXPENSE,
+                            onClick = { selectedType = TransactionType.EXPENSE }
+                        )
+                        Text("Despesa", color = ExpenseRed)
+                    }
+
+                    Spacer(modifier = Modifier.padding(horizontal = 12.dp))
+
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.clickable { selectedType = TransactionType.INCOME }
+                    ) {
+                        RadioButton(
+                            selected = selectedType == TransactionType.INCOME,
+                            onClick = { selectedType = TransactionType.INCOME }
+                        )
+                        Text("Receita", color = IncomeGreen)
+                    }
                 }
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -149,10 +161,9 @@ fun AddCategoryDialog(
                 onClick = {
                     val type = selectedType
                     val color = selectedColor
-                    val cleanName = name.trim()
                     if (type == null) {
                         errorMessage = "Selecione o tipo da categoria (Despesa ou Receita)"
-                    } else if (cleanName.isBlank()) {
+                    } else if (name.isBlank()) {
                         errorMessage = "Informe o nome da categoria"
                     } else if (color == null) {
                         errorMessage = "Selecione uma cor para a categoria"
@@ -163,7 +174,7 @@ fun AddCategoryDialog(
                         } catch (e: Exception) {
                             BigDecimal.ZERO
                         }
-                        onConfirm(cleanName, type, limit, color)
+                        onConfirm(name, type, limit, color)
                         onDismiss()
                     }
                 }

@@ -1,5 +1,6 @@
 package com.mayconrob.koinapp.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -93,25 +94,43 @@ fun AddTransactionDialog(
         },
         text = {
             Column {
-                // Tipo: Receita vs Despesa
+                // Tipo: Receita vs Despesa (clicáveis)
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    RadioButton(
-                        selected = selectedType == TransactionType.EXPENSE,
-                        onClick = {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.clickable {
                             selectedType = TransactionType.EXPENSE
                             selectedCategory = null
                         }
-                    )
-                    Text("Despesa", color = ExpenseRed)
-                    Spacer(modifier = Modifier.padding(horizontal = 8.dp))
-                    RadioButton(
-                        selected = selectedType == TransactionType.INCOME,
-                        onClick = {
+                    ) {
+                        RadioButton(
+                            selected = selectedType == TransactionType.EXPENSE,
+                            onClick = {
+                                selectedType = TransactionType.EXPENSE
+                                selectedCategory = null
+                            }
+                        )
+                        Text("Despesa", color = ExpenseRed)
+                    }
+
+                    Spacer(modifier = Modifier.padding(horizontal = 12.dp))
+
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.clickable {
                             selectedType = TransactionType.INCOME
                             selectedCategory = null
                         }
-                    )
-                    Text("Receita", color = IncomeGreen)
+                    ) {
+                        RadioButton(
+                            selected = selectedType == TransactionType.INCOME,
+                            onClick = {
+                                selectedType = TransactionType.INCOME
+                                selectedCategory = null
+                            }
+                        )
+                        Text("Receita", color = IncomeGreen)
+                    }
                 }
 
                 Spacer(modifier = Modifier.height(8.dp))

@@ -17,6 +17,7 @@ import com.mayconrob.koinapp.domain.repository.ICategoriaRepository
 import com.mayconrob.koinapp.domain.repository.ITransacaoRepository
 import com.mayconrob.koinapp.domain.model.FinancialSummary
 import com.mayconrob.koinapp.domain.enums.TransactionType
+import com.mayconrob.koinapp.common.Formatters
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -68,11 +69,17 @@ class PainelFinanceiroViewModel @Inject constructor(
                     savingsPercentage = savingsPct
                 )
 
+                val (startMonth, endMonth) = Formatters.getCurrentMonthRange()
+
                 val consumosOrcamento = categories
                     .filter { it.type == TransactionType.EXPENSE && it.budgetLimit > BigDecimal.ZERO }
                     .map { category ->
                         val spent = transactions
-                            .filter { it.transaction.categoryId == category.id && it.transaction.type == TransactionType.EXPENSE }
+                            .filter { 
+                                it.transaction.categoryId == category.id && 
+                                it.transaction.type == TransactionType.EXPENSE &&
+                                it.transaction.dateTimestamp in startMonth..endMonth
+                            }
                             .fold(BigDecimal.ZERO) { acc, item -> acc.add(item.transaction.amount) }
 
                         val pct = if (category.budgetLimit > BigDecimal.ZERO) {
@@ -93,6 +100,7 @@ class PainelFinanceiroViewModel @Inject constructor(
                     resumo = summary,
                     consumosOrcamento = consumosOrcamento,
                     ultimasTransacoes = transactions.take(5),
+                    currentMonthLabel = Formatters.getCurrentMonthName(),
                     estaCarregando = false
                 )
             }.collect { state ->

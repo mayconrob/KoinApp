@@ -72,7 +72,10 @@ fun CategoriesScreen(
             FloatingActionButton(
                 onClick = onAddCategoryClick,
                 containerColor = AccentIndigo,
-                contentColor = MaterialTheme.colorScheme.onPrimary
+                contentColor = MaterialTheme.colorScheme.onPrimary,
+                modifier = Modifier.semantics {
+                    contentDescription = "Adicionar nova categoria"
+                }
             ) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = "Adicionar nova categoria")
             }
@@ -239,7 +242,7 @@ fun CategoriesScreen(
     }
 
     if (state.errorMessage != null) {
-        val errorMsg = state.errorMessage!!
+        val errorMsg = state.errorMessage
         AlertDialog(
             onDismissRequest = onDismissError,
             title = {
