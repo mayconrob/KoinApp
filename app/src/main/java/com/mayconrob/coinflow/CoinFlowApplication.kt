@@ -1,5 +1,5 @@
 /*
- * KoinApp - Gestão Financeira Pessoal
+ * CoinFlow - Gestão Financeira Pessoal
  * Copyright (C) 2026 Maycon Roberto - GitHub: @mayconrob
  *
  * This program is free software: you can redistribute it and/or modify
@@ -8,7 +8,7 @@
  * (at your option) any later version.
  */
 
-package com.mayconrob.koinapp
+package com.mayconrob.coinflow
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
